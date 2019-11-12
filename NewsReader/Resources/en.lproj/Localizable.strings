@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  NewsReader
+
+  Created by Yury Beryla on 11/12/19.
+  Copyright © 2019 Yury Beryla. All rights reserved.
+*/
+
+/* Username */
+"login.label.username" = "Username";
+
+/* Password */
+"login.label.password" = "Password";
+
+/* Sign in */
+"login.button.sign_in" = "Sign in";
+
+/* Username or password is invalid */
+"login.label.invalid" = "Username or password is invalid";
+
+
+/* Channels */
+"channels.label.title" = "Channels";
