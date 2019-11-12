@@ -60,14 +60,62 @@
 			children = (
 				D1784402237AC9650050C56E /* AppDelegate.swift */,
 				D1784404237AC9650050C56E /* SceneDelegate.swift */,
-				D1784406237AC9650050C56E /* ViewController.swift */,
-				D1784408237AC9650050C56E /* Main.storyboard */,
-				D178440E237AC9670050C56E /* Assets.xcassets */,
-				D1784410237AC9670050C56E /* LaunchScreen.storyboard */,
-				D1784413237AC9670050C56E /* Info.plist */,
-				D178440B237AC9650050C56E /* NewsReader.xcdatamodeld */,
+				D178441F237ACD3C0050C56E /* Miscellaneous */,
+				D178441C237ACD080050C56E /* Models */,
+				D178441E237ACD2D0050C56E /* Resources */,
+				D178441B237ACCBE0050C56E /* Storyboards */,
+				D178441A237ACCA70050C56E /* ViewControllers */,
 			);
 			path = NewsReader;
+			sourceTree = "<group>";
+		};
+		D178441A237ACCA70050C56E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D1784406237AC9650050C56E /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D178441B237ACCBE0050C56E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D1784410237AC9670050C56E /* LaunchScreen.storyboard */,
+				D1784408237AC9650050C56E /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		D178441C237ACD080050C56E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D178441D237ACD130050C56E /* Managed */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D178441D237ACD130050C56E /* Managed */ = {
+			isa = PBXGroup;
+			children = (
+				D178440B237AC9650050C56E /* NewsReader.xcdatamodeld */,
+			);
+			path = Managed;
+			sourceTree = "<group>";
+		};
+		D178441E237ACD2D0050C56E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D178440E237AC9670050C56E /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D178441F237ACD3C0050C56E /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				D1784413237AC9670050C56E /* Info.plist */,
+			);
+			path = Miscellaneous;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,7 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = NewsReader/Info.plist;
+				INFOPLIST_FILE = NewsReader/Miscellaneous/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,7 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = NewsReader/Info.plist;
+				INFOPLIST_FILE = NewsReader/Miscellaneous/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
