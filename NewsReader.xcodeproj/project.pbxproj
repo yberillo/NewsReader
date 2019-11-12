@@ -17,6 +17,8 @@
 		D1784422237ACFDD0050C56E /* UsersDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784421237ACFDD0050C56E /* UsersDataController.swift */; };
 		D1784425237ADFC80050C56E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784424237ADFC80050C56E /* LoginViewModel.swift */; };
 		D1784428237AE0800050C56E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D178442A237AE0800050C56E /* Localizable.strings */; };
+		D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */; };
+		D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784431237AF05F0050C56E /* ChannelsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		D1784421237ACFDD0050C56E /* UsersDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersDataController.swift; sourceTree = "<group>"; };
 		D1784424237ADFC80050C56E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		D1784429237AE0800050C56E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
+		D1784431237AF05F0050C56E /* ChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 		D178441A237ACCA70050C56E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D1784431237AF05F0050C56E /* ChannelsViewController.swift */,
 				D1784406237AC9650050C56E /* LoginViewController.swift */,
 			);
 			path = ViewControllers;
@@ -138,6 +143,7 @@
 		D1784423237ADFAC0050C56E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */,
 				D1784424237ADFC80050C56E /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
@@ -217,6 +223,8 @@
 			files = (
 				D1784407237AC9650050C56E /* LoginViewController.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
+				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
+				D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */,
 				D1784425237ADFC80050C56E /* LoginViewModel.swift in Sources */,
 				D1784405237AC9650050C56E /* SceneDelegate.swift in Sources */,
 				D1784422237ACFDD0050C56E /* UsersDataController.swift in Sources */,

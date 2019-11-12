@@ -76,8 +76,12 @@ class LoginViewController: UIViewController {
         else {
             
             invalidLabel.isHidden = true
-         
-            // TODO: Show channels VC
+            
+            if let channelsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ChannelsViewController") as? ChannelsViewController {
+
+                self.navigationController?.pushViewController(channelsViewController, animated: true)
+                self.navigationController?.viewControllers.remove(at: 0)
+            }
         }
     }
     
