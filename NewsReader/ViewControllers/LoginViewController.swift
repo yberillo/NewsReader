@@ -56,7 +56,6 @@ class LoginViewController: UIViewController {
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-//        usersDataController.loadUsers()
         refreshView()
     }
     

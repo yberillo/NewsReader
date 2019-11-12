@@ -22,6 +22,13 @@ final class UsersDataController {
     
     private let entityName = "User"
     
+    // MARK: - Lifecycle
+    
+    init() {
+        
+//        loadUsers()
+    }
+    
     // MARK: - Internal API
     
     func authenticateUser(with username: String, password: String) -> User? {
@@ -53,7 +60,9 @@ final class UsersDataController {
         }
     }
     
-    func loadUsers() {
+    // MARK: - Private API
+    
+    private func loadUsers() {
         guard let userEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             
             return
