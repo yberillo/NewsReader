@@ -19,6 +19,7 @@
 		D1784428237AE0800050C56E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D178442A237AE0800050C56E /* Localizable.strings */; };
 		D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */; };
 		D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784431237AF05F0050C56E /* ChannelsViewController.swift */; };
+		D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784433237B01A10050C56E /* ChannelsDataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D1784429237AE0800050C56E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
 		D1784431237AF05F0050C56E /* ChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewController.swift; sourceTree = "<group>"; };
+		D1784433237B01A10050C56E /* ChannelsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 		D1784420237ACFAB0050C56E /* DataControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D1784433237B01A10050C56E /* ChannelsDataController.swift */,
 				D1784421237ACFDD0050C56E /* UsersDataController.swift */,
 			);
 			path = DataControllers;
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */,
 				D1784407237AC9650050C56E /* LoginViewController.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
