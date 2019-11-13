@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ChannelsViewControllerDelegate: NSObjectProtocol {
+    
+    func signOut()
+}
+
 class ChannelsViewController: UITableViewController {
     
     // MARK: - Private Properties
@@ -22,6 +27,12 @@ class ChannelsViewController: UITableViewController {
         }
     }
     
+    // MARK: - Internal Properties
+    
+    weak var delegate: ChannelsViewControllerDelegate?
+    
+    var usersDataController: UsersDataController?
+    
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
@@ -34,12 +45,18 @@ class ChannelsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationItem.setHidesBackButton(true, animated: false)
         
         reloadViewModel()
     }
+    
+    // MARK: - Actions
+    
+    @IBAction func signOutBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
+        
+        usersDataController?.signOut()
+        delegate?.signOut()
+    }
+    
     
     // MARK: - Private API
     

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jzO-c6-ZVL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -10,13 +10,13 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="NewsReader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="NewsReader" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2B-pk-Llh">
-                                <rect key="frame" x="30" y="388" width="354" height="174"/>
+                                <rect key="frame" x="30" y="366" width="354" height="174"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eAm-wE-qkM">
                                         <rect key="frame" x="20" y="32.5" width="42" height="21"/>
@@ -56,7 +56,7 @@
                                             <constraint firstAttribute="height" constant="21" id="jB7-A9-i0E"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -129,34 +129,22 @@
                             <outlet property="delegate" destination="GvP-QB-jo6" id="umh-dv-SDU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="05E-aq-bJZ"/>
+                    <navigationItem key="navigationItem" title="Title" id="05E-aq-bJZ">
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="G4m-dA-Yja">
+                            <connections>
+                                <action selector="signOutBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="AEv-Cl-Woj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OC-w5-Jgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4373.913043478261" y="141.96428571428569"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="d2r-e5-wAY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jzO-c6-ZVL" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nNT-jq-z27">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="2hh-Oa-0jv"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nws-2T-SK0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="uH4-eQ-F7o">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LTw-Pp-e9Z" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ChannelsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="LTw-Pp-e9Z" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uTp-wv-csL">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

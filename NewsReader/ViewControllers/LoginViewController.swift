@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: NSObjectProtocol {
+    
+    func signIn()
+}
+
 class LoginViewController: UIViewController {
     
     // MARK: - Outlets
@@ -27,11 +32,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     
     // MARK: - Private Properties
-    
-    private var user: User?
-    
-    private let usersDataController: UsersDataController
-    
+            
     private var viewModel: LoginViewModel {
         
         didSet {
@@ -40,10 +41,15 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Internal Properties
+    
+    weak var delegate: LoginViewControllerDelegate?
+    
+    var usersDataController: UsersDataController?
+    
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        usersDataController = UsersDataController()
         viewModel = LoginViewModel()
         
         super.init(coder: coder)
@@ -53,9 +59,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         loginView.layer.cornerRadius = loginView.frame.size.height / 10.0
-        
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
+                
         refreshView()
     }
     
@@ -66,21 +70,16 @@ class LoginViewController: UIViewController {
             
             return
         }
-        user = usersDataController.authenticateUser(with: username, password: password)
+        _ = usersDataController?.authenticateUser(with: username, password: password)
         
-        if user == nil {
+        if usersDataController?.currentUser == nil {
             
             invalidLabel.isHidden = false
         }
         else {
             
             invalidLabel.isHidden = true
-            
-            if let channelsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ChannelsViewController") as? ChannelsViewController {
-
-                self.navigationController?.pushViewController(channelsViewController, animated: true)
-                self.navigationController?.viewControllers.remove(at: 0)
-            }
+            self.delegate?.signIn()
         }
     }
     
