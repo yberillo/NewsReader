@@ -57,6 +57,17 @@ class ChannelsViewController: UITableViewController {
         delegate?.signOut()
     }
     
+    // MARK: - Segues
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard let articlesViewController = segue.destination as? ArticlesViewController,
+            let selectedIndex = tableView.indexPathForSelectedRow?.item else {
+            
+            return
+        }
+        articlesViewController.navigationItemTitle = channelsDataController.channel(at: selectedIndex)?.title
+    }
     
     // MARK: - Private API
     
