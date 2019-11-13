@@ -5,12 +5,13 @@
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <attribute name="isSignedIn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="88"/>
         <element name="Channel" positionX="-54" positionY="18" width="128" height="73"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>
