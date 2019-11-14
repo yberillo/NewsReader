@@ -59,6 +59,13 @@
                                         <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jd-hg-zaY">
+                                        <rect key="frame" x="20" y="124" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="registerButtonTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Mr-7H-JCo"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -70,16 +77,20 @@
                                     <constraint firstItem="UwH-Gt-2bv" firstAttribute="top" secondItem="OXW-LV-E8h" secondAttribute="bottom" constant="5" id="B9G-q0-luV"/>
                                     <constraint firstItem="83X-fa-8M6" firstAttribute="centerY" secondItem="rFF-wI-fF1" secondAttribute="centerY" id="Efg-du-Urm"/>
                                     <constraint firstAttribute="bottom" secondItem="2BH-tc-u7b" secondAttribute="bottom" constant="20" id="GAL-RE-22F"/>
+                                    <constraint firstItem="8jd-hg-zaY" firstAttribute="top" secondItem="2BH-tc-u7b" secondAttribute="top" id="Jn4-s5-uB4"/>
                                     <constraint firstAttribute="trailing" secondItem="UwH-Gt-2bv" secondAttribute="trailing" constant="20" id="PS8-nY-xaF"/>
                                     <constraint firstAttribute="trailing" secondItem="rFF-wI-fF1" secondAttribute="trailing" constant="20" id="Pd5-ei-pWa"/>
                                     <constraint firstAttribute="trailing" secondItem="2BH-tc-u7b" secondAttribute="trailing" constant="20" id="TNJ-dE-0fS"/>
                                     <constraint firstItem="UwH-Gt-2bv" firstAttribute="leading" secondItem="eAm-wE-qkM" secondAttribute="trailing" priority="750" constant="30" id="YHy-D7-jQ5"/>
+                                    <constraint firstItem="8jd-hg-zaY" firstAttribute="leading" secondItem="83X-fa-8M6" secondAttribute="leading" id="bOw-2d-X3c"/>
                                     <constraint firstItem="OXW-LV-E8h" firstAttribute="top" secondItem="z2B-pk-Llh" secondAttribute="top" id="bbu-VO-3BV"/>
                                     <constraint firstItem="2BH-tc-u7b" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="z2B-pk-Llh" secondAttribute="leading" constant="20" symbolic="YES" id="bpH-x0-g2k"/>
                                     <constraint firstItem="OXW-LV-E8h" firstAttribute="trailing" secondItem="UwH-Gt-2bv" secondAttribute="trailing" id="fWn-uZ-Mca"/>
                                     <constraint firstItem="OXW-LV-E8h" firstAttribute="leading" secondItem="UwH-Gt-2bv" secondAttribute="leading" id="gKl-IU-vrs"/>
+                                    <constraint firstItem="8jd-hg-zaY" firstAttribute="height" secondItem="2BH-tc-u7b" secondAttribute="height" id="kCb-Jy-JA7"/>
                                     <constraint firstItem="eAm-wE-qkM" firstAttribute="centerY" secondItem="UwH-Gt-2bv" secondAttribute="centerY" id="mdD-7n-P4x"/>
                                     <constraint firstItem="rFF-wI-fF1" firstAttribute="width" secondItem="UwH-Gt-2bv" secondAttribute="width" id="vWg-xY-KcH"/>
+                                    <constraint firstItem="2BH-tc-u7b" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8jd-hg-zaY" secondAttribute="trailing" constant="20" id="whh-VM-pXv"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -97,6 +108,7 @@
                         <outlet property="loginView" destination="z2B-pk-Llh" id="wGS-EA-T4n"/>
                         <outlet property="passwordLabel" destination="83X-fa-8M6" id="Y68-iO-Tt3"/>
                         <outlet property="passwordTextField" destination="rFF-wI-fF1" id="Hgg-Kh-dtk"/>
+                        <outlet property="registerButton" destination="8jd-hg-zaY" id="61R-ma-7E4"/>
                         <outlet property="signInButton" destination="2BH-tc-u7b" id="FJo-Bb-7WR"/>
                         <outlet property="usernameLabel" destination="eAm-wE-qkM" id="6yl-vM-m8e"/>
                         <outlet property="usernameTextField" destination="UwH-Gt-2bv" id="hFd-9R-Tbb"/>
@@ -135,13 +147,12 @@
                     <navigationItem key="navigationItem" title="Title" id="05E-aq-bJZ">
                         <barButtonItem key="rightBarButtonItem" title="Sign out" id="G4m-dA-Yja">
                             <connections>
-                                <action selector="signOutBarButtonItem:" destination="xVk-cE-pbD" id="sCm-pS-f3Y"/>
+                                <action selector="signOutBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="hfp-4r-S8F"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OC-w5-Jgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="xVk-cE-pbD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3538" y="138"/>
         </scene>

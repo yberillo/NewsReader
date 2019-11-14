@@ -69,6 +69,48 @@ final class UsersDataController {
         }
     }
     
+    func registerUser(with username: String, password: String) -> Bool {
+        let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
+        let predicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
+        
+        userFetchRequest.predicate = predicate
+                    
+        do {
+            
+            let userResult = try self.context.fetch(userFetchRequest)
+            
+            if userResult.isEmpty {
+                guard let userEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+                    return false
+                }
+                
+                let user = NSManagedObject(entity: userEntity, insertInto: context)
+                user.setValue(username, forKey: UsersDataController.Keys.username)
+                user.setValue("Ivan Ivanov", forKey: UsersDataController.Keys.name)
+                user.setValue(password, forKey: UsersDataController.Keys.password)
+
+                do {
+                    
+                    try context.save()
+                }
+                catch let error as NSError {
+                    
+                    print(error)
+                    return false
+                }
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        catch let error as NSError {
+            
+            print(error)
+            return false
+        }
+    }
+    
     func restoreUser() -> User? {
         
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
@@ -105,6 +147,7 @@ final class UsersDataController {
             let userResult = try self.context.fetch(userFetchRequest)
             let currentUser = userResult.first as? User
             currentUser?.isSignedIn = false
+            self.currentUser = nil
             
             try context.save()
         }

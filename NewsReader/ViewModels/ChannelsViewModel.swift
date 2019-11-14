@@ -14,9 +14,12 @@ struct ChannelsViewModel {
     
     let navigationItemTitle: String
     
+    let signOutButtonText: String
+    
     // MARK: - Lifecycle
     
     init() {
         navigationItemTitle = NSLocalizedString("channels.label.title", comment: "Channels")
+        signOutButtonText = NSLocalizedString("channels.button.sign_out", comment: "Sign out")
     }
 }

@@ -16,12 +16,27 @@
 /* Sign in */
 "login.button.sign_in" = "Sign in";
 
+/* Register */
+"login.button.register" = "Register";
+
 /* Username or password is invalid */
 "login.label.invalid" = "Username or password is invalid";
+
+/* Registration failed */
+"login.label.registration_failed" = "Registration failed";
+
+/* User with this username already exists */
+"login.label.user_exists" = "User with this username already exists";
+
+/* OK */
+"login.button.ok" = "OK";
 
 /* ChannelsViewController */
 /* Channels */
 "channels.label.title" = "Channels";
+
+/* Sign out */
+"channels.button.sign_out" = "Sign out";
 
 /* ArticlesViewController */
 /* Sign out */
