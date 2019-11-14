@@ -82,9 +82,7 @@ final class RSSParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         
         if isHeader == false {
-            if currentElement == rssParseKeys.author
-                || currentElement == rssParseKeys.content
-                || currentElement == rssParseKeys.description
+            if currentElement == rssParseKeys.description
                 || currentElement == rssParseKeys.item
                 || currentElement == rssParseKeys.link
                 || currentElement == rssParseKeys.pubDate

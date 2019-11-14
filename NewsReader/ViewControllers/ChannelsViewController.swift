@@ -13,7 +13,7 @@ protocol ChannelsViewControllerDelegate: NSObjectProtocol {
     func signOut()
 }
 
-class ChannelsViewController: UITableViewController {
+final class ChannelsViewController: UITableViewController {
     
     // MARK: - Private Properties
     

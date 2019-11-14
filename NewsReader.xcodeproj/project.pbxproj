@@ -28,6 +28,7 @@
 		D1A26BD5237C303A0071461D /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD4237C303A0071461D /* RSSParser.swift */; };
 		D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA549237D74E300D5108D /* RSSParserKeys.swift */; };
 		D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */; };
+		D1ABA54E237D8F3100D5108D /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54D237D8F3100D5108D /* ArticleViewController.swift */; };
 		D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C84AC1237BE457007186A8 /* RootViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		D1A26BD4237C303A0071461D /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		D1ABA549237D74E300D5108D /* RSSParserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParserKeys.swift; sourceTree = "<group>"; };
 		D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
+		D1ABA54D237D8F3100D5108D /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		D1C84AC1237BE457007186A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 		D178441A237ACCA70050C56E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D1ABA54D237D8F3100D5108D /* ArticleViewController.swift */,
 				D15418AE237C167200D87484 /* ArticlesViewController.swift */,
 				D1784431237AF05F0050C56E /* ChannelsViewController.swift */,
 				D1784406237AC9650050C56E /* LoginViewController.swift */,
@@ -289,6 +292,7 @@
 				D1784422237ACFDD0050C56E /* UsersDataController.swift in Sources */,
 				D178440D237AC9650050C56E /* NewsReader.xcdatamodeld in Sources */,
 				D15418AF237C167200D87484 /* ArticlesViewController.swift in Sources */,
+				D1ABA54E237D8F3100D5108D /* ArticleViewController.swift in Sources */,
 				D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */,
 				D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */,
 				D15418B1237C183900D87484 /* ArticlesDataController.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArticlesViewController: UITableViewController {
+final class ArticlesViewController: UITableViewController {
     
     // MARK: - Private Properties
     
@@ -59,6 +59,17 @@ class ArticlesViewController: UITableViewController {
     private func reloadViewModel() {
         
         viewModel = ArticlesViewModel()
+    }
+    
+    // MARK: - Segues
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let articleViewController = segue.destination as? ArticleViewController,
+        let selectedIndexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        
+        articleViewController.article = articlesDataController.article(at: selectedIndexPath.item)
     }
 
     // MARK: - Table view data source

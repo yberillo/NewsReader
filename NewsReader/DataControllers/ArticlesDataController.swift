@@ -117,7 +117,7 @@ final class ArticlesDataController {
                 newArticle.setValue(article.channel, forKey: keys.channel)
                 newArticle.setValue(article.imageUrlString, forKey: keys.imageUrlString)
                 newArticle.setValue(article.thumbnailUrlString, forKey: keys.thumbnailUrlString)
-                newArticle.setValue(article.urlString, forKey: keys.imageUrlString)
+                newArticle.setValue(article.urlString, forKey: keys.urlString)
 
                 do {
 

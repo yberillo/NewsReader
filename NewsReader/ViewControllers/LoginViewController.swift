@@ -13,7 +13,7 @@ protocol LoginViewControllerDelegate: NSObjectProtocol {
     func signIn()
 }
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     // MARK: - Outlets
     
