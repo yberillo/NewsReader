@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G87" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Article" representedClassName="Article" syncable="YES" codeGenerationType="class">
-        <attribute name="articleDate" optional="YES" attributeType="String"/>
+        <attribute name="articleDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="articleDescription" optional="YES" attributeType="String"/>
         <attribute name="articleTitle" optional="YES" attributeType="String"/>
         <attribute name="imageUrlString" optional="YES" attributeType="String"/>
-        <attribute name="url" optional="YES" attributeType="String"/>
+        <attribute name="thumbnailUrlString" optional="YES" attributeType="String"/>
+        <attribute name="urlString" optional="YES" attributeType="String"/>
         <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="inArticle" inverseEntity="Channel"/>
     </entity>
     <entity name="Channel" representedClassName="Channel" syncable="YES" codeGenerationType="class">
@@ -20,7 +21,7 @@
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Article" positionX="-54" positionY="18" width="128" height="133"/>
+        <element name="Article" positionX="-54" positionY="18" width="128" height="148"/>
         <element name="Channel" positionX="-54" positionY="18" width="128" height="88"/>
         <element name="User" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
