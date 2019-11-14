@@ -22,11 +22,22 @@ final class ArticleViewController: UIViewController {
         
     @IBOutlet weak var titleLabel: UILabel!
     
+    // MARK: - Private Properties
+    
+    private let gestureRecognizer: UITapGestureRecognizer
+    
     // MARK: - Internal Properties
     
     var article: Article?
     
     // MARK: - Lifecycle
+    
+    required init?(coder: NSCoder) {
+        
+        gestureRecognizer = UITapGestureRecognizer()
+        
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +66,29 @@ final class ArticleViewController: UIViewController {
         }
         
         linkLabel.text = article.urlString
+        linkLabel.isUserInteractionEnabled = true
         textLabel.text = article.articleDescription
         titleLabel.text = article.articleTitle
+        
+        linkLabel.addGestureRecognizer(gestureRecognizer)
+        
+        gestureRecognizer.addTarget(self, action: #selector(self.gestureRecognizerTap))
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    private func gestureRecognizerTap() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let articleWebViewController = storyboard.instantiateViewController(identifier: "ArticleWebViewController") as? ArticleWebViewController,
+            let article = self.article,
+            let articleUrlString = article.urlString,
+            let articleUrl = URL(string: articleUrlString) else {
+            return
+        }
+        articleWebViewController.articleUrl = articleUrl
+        
+        self.navigationController?.pushViewController(articleWebViewController, animated: true)
     }
 }
