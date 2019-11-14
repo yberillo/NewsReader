@@ -35,6 +35,9 @@
 /* Channels */
 "channels.label.title" = "Channels";
 
+/* Next */
+"channels.button.next" = "Next";
+
 /* Sign out */
 "channels.button.sign_out" = "Sign out";
 

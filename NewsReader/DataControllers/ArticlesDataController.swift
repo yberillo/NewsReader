@@ -75,7 +75,7 @@ final class ArticlesDataController {
             predicates.append(predicate)
         }
         
-        articlesFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        articlesFetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
                     
         do {
             

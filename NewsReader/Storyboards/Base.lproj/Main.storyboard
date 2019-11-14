@@ -127,15 +127,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelReusableView" id="Dgm-0H-r0l">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelReusableView" rowHeight="66" id="Dgm-0H-r0l" customClass="ChannelReusableView" customModule="NewsReader" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="66"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dgm-0H-r0l" id="bqY-Zh-Bau">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kv-T0-UQG">
+                                            <rect key="frame" x="20" y="20" width="42" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="8ci-qW-YM4"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dWF-sY-hLo">
+                                            <rect key="frame" x="345" y="14.5" width="51" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="dCi-xE-08N"/>
+                                            </constraints>
+                                        </switch>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="5kv-T0-UQG" firstAttribute="leading" secondItem="bqY-Zh-Bau" secondAttribute="leading" constant="20" id="7CL-Rg-KS0"/>
+                                        <constraint firstAttribute="trailing" secondItem="dWF-sY-hLo" secondAttribute="trailing" constant="20" id="M4b-LT-Qd6"/>
+                                        <constraint firstItem="dWF-sY-hLo" firstAttribute="centerY" secondItem="5kv-T0-UQG" secondAttribute="centerY" id="edX-KL-MSN"/>
+                                        <constraint firstItem="dWF-sY-hLo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5kv-T0-UQG" secondAttribute="trailing" constant="20" id="mSn-3h-H4D"/>
+                                        <constraint firstItem="5kv-T0-UQG" firstAttribute="top" secondItem="bqY-Zh-Bau" secondAttribute="top" constant="20" id="v4Q-fp-hUo"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ksv-cc-kBe" kind="show" id="COc-pi-uAH"/>
+                                    <outlet property="channelSwitch" destination="dWF-sY-hLo" id="pzS-ae-8bh"/>
+                                    <outlet property="channelTitleLabel" destination="5kv-T0-UQG" id="P6w-1n-ISc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -145,16 +170,22 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Title" id="05E-aq-bJZ">
-                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="G4m-dA-Yja">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="kLJ-B0-NHJ">
                             <connections>
-                                <action selector="signOutBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="hfp-4r-S8F"/>
+                                <action selector="signOutBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="OGN-hg-LUL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="G4m-dA-Yja">
+                            <connections>
+                                <action selector="nextBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="2di-WG-NWY"/>
+                                <segue destination="ksv-cc-kBe" kind="show" id="ihm-Cv-wed"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OC-w5-Jgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3538" y="138"/>
+            <point key="canvasLocation" x="3537.68115942029" y="137.94642857142856"/>
         </scene>
         <!--Articles View Controller-->
         <scene sceneID="rcV-HI-ZIp">
