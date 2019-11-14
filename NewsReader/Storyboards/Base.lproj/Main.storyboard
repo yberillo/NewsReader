@@ -56,7 +56,7 @@
                                             <constraint firstAttribute="height" constant="21" id="jB7-A9-i0E"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -135,12 +135,13 @@
                     <navigationItem key="navigationItem" title="Title" id="05E-aq-bJZ">
                         <barButtonItem key="rightBarButtonItem" title="Sign out" id="G4m-dA-Yja">
                             <connections>
-                                <action selector="signOutBarButtonItemTouchUpInside:" destination="GvP-QB-jo6" id="AEv-Cl-Woj"/>
+                                <action selector="signOutBarButtonItem:" destination="xVk-cE-pbD" id="sCm-pS-f3Y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OC-w5-Jgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="xVk-cE-pbD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3538" y="138"/>
         </scene>
@@ -168,8 +169,8 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixr-Qb-2YF">
-                                            <rect key="frame" x="120" y="10" width="284" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <rect key="frame" x="120" y="10" width="284" height="18"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>

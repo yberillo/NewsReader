@@ -62,11 +62,19 @@ class ChannelsViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         guard let articlesViewController = segue.destination as? ArticlesViewController,
-            let selectedIndex = tableView.indexPathForSelectedRow?.item else {
+            let selectedIndex = tableView.indexPathForSelectedRow?.item,
+            let indexPathsForSelectedRows = tableView.indexPathsForSelectedRows else {
             
             return
         }
         articlesViewController.navigationItemTitle = channelsDataController.channel(at: selectedIndex)?.title
+        articlesViewController.selectedChannels = []
+
+        for indexPath in indexPathsForSelectedRows {
+            if let channel = channelsDataController.channel(at: indexPath.item) {
+                articlesViewController.selectedChannels?.append(channel)
+            }
+        }
     }
     
     // MARK: - Private API

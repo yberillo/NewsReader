@@ -14,17 +14,27 @@ class ArticlesViewController: UITableViewController {
     
     let articleReusableViewIdentifier = "ArticleReusableView"
     
-    let articlesDataController: ArticlesDataController
+    var articlesDataController: ArticlesDataController
+    
+    var viewModel: ArticlesViewModel {
+        
+        didSet {
+            
+            self.refreshView()
+        }
+    }
     
     // MARK: - Internal Properties
     
     var navigationItemTitle: String?
     
+    var selectedChannels: [Channel]?
+    
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        articlesDataController = ArticlesDataController()
-        
+        articlesDataController = ArticlesDataController(selectedChannels: nil)
+        viewModel = ArticlesViewModel()
         super.init(coder: coder)
     }
     
@@ -32,6 +42,23 @@ class ArticlesViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.title = navigationItemTitle
+        articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
+        articlesDataController.refetchArticles(completion: { [weak self] in
+            self?.tableView.reloadData()
+        })
+        tableView.reloadData()
+    }
+    
+    // MARK: - Private API
+    
+    private func refreshView() {
+        
+        self.navigationItem.rightBarButtonItem?.title = viewModel.signOutButtonTitle
+    }
+    
+    private func reloadViewModel() {
+        
+        viewModel = ArticlesViewModel()
     }
 
     // MARK: - Table view data source
@@ -48,12 +75,14 @@ class ArticlesViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        cell.dateLabel.text = article.articleDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        cell.dateLabel.text = dateFormatter.string(from: article.articleDate ?? Date())
         
         var image: UIImage?
         
         DispatchQueue.global().async {
-            guard let imageUrlString = article.imageUrlString,
+            guard let imageUrlString = article.thumbnailUrlString,
                 let imageUrl = URL(string: imageUrlString),
                 let imageData = try? Data(contentsOf: imageUrl) else {
                     
@@ -61,8 +90,11 @@ class ArticlesViewController: UITableViewController {
             }
               
             image = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                
+                cell.articleImageView.image = image
+            }
         }
-        cell.articleImageView.image = image
         cell.titleLabel.text = article.articleTitle
         
         return cell

@@ -12,17 +12,6 @@ import UIKit
 
 final class UsersDataController {
     
-    // MARK: - Predicates
-    
-    private let isSignedInPredicateString = "isSignedIn"
-    
-    private let namePredicateString = "name"
-    
-    private let passwordPredicateString = "password"
-
-    private let usernamePredicateString = "username"
-    
-    
     // MARK: - Private Properties
     
     private var context: NSManagedObjectContext {
@@ -51,10 +40,10 @@ final class UsersDataController {
     func authenticateUser(with username: String, password: String) -> User? {
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
         var predicates: [NSPredicate] = []
-        let usernamePredicate = NSPredicate(format: "\(usernamePredicateString) = %@", username)
+        let usernamePredicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
         predicates.append(usernamePredicate)
         
-        let passwordPredicate = NSPredicate(format: "\(passwordPredicateString) = %@", password)
+        let passwordPredicate = NSPredicate(format: "\(UsersDataController.Keys.password) = %@", password)
         predicates.append(passwordPredicate)
         
         userFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -84,7 +73,7 @@ final class UsersDataController {
         
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
         
-        userFetchRequest.predicate = NSPredicate(format: "\(isSignedInPredicateString) = %@", "1")
+        userFetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
                     
         do {
             
@@ -109,7 +98,7 @@ final class UsersDataController {
         
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
         
-        userFetchRequest.predicate = NSPredicate(format: "\(isSignedInPredicateString) = %@", "1")
+        userFetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
                     
         do {
             
@@ -134,9 +123,9 @@ final class UsersDataController {
         }
         
         let user = NSManagedObject(entity: userEntity, insertInto: context)
-        user.setValue("user", forKey: usernamePredicateString)
-        user.setValue("Ivan Ivanov", forKey: namePredicateString)
-        user.setValue("password", forKey: passwordPredicateString)
+        user.setValue("user", forKey: UsersDataController.Keys.username)
+        user.setValue("Ivan Ivanov", forKey: UsersDataController.Keys.name)
+        user.setValue("password", forKey: UsersDataController.Keys.password)
 
         do {
             
@@ -145,6 +134,28 @@ final class UsersDataController {
         catch let error as NSError {
             
             print(error)
+        }
+    }
+}
+
+fileprivate extension UsersDataController {
+        
+    struct Keys {
+        
+        static var isSignedIn: String {
+            return "isSignedIn"
+        }
+        
+        static var name: String {
+            return "name"
+        }
+        
+        static var password: String {
+            return "password"
+        }
+
+        static var username: String {
+            return "username"
         }
     }
 }

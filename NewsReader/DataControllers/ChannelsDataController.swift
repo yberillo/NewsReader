@@ -102,3 +102,13 @@ final class ChannelsDataController {
         }
     }
 }
+
+extension ChannelsDataController {
+    
+    enum Channels: String {
+        
+        case lentaru = "Lenta.ru"
+
+        case tutby = "Tut.by"
+    }
+}
