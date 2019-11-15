@@ -10,10 +10,6 @@ import Foundation
 
 protocol RSSParserKeys: NSObjectProtocol {
     
-    static var author: String { get }
-    
-    static var content: String { get }
-    
     static var description: String { get }
     
     static var enclosure: String { get }

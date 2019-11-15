@@ -14,6 +14,8 @@ final class ArticleReusableView: UITableViewCell {
     
     @IBOutlet weak var articleImageView: UIImageView!
     
+    @IBOutlet weak var channelLabel: UILabel!
+    
     @IBOutlet weak var dateLabel: UILabel!
         
     @IBOutlet weak var titleLabel: UILabel!

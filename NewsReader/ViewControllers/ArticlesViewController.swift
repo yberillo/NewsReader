@@ -46,6 +46,7 @@ final class ArticlesViewController: UITableViewController {
         articlesDataController.refetchArticles(completion: { [weak self] in
             self?.tableView.reloadData()
         })
+        
         tableView.reloadData()
     }
     
@@ -85,6 +86,7 @@ final class ArticlesViewController: UITableViewController {
             
             return UITableViewCell()
         }
+        cell.channelLabel.text = article.channel?.title
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
