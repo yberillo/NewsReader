@@ -23,7 +23,7 @@ class ArticlesCoordinator: NSObject {
     
     // MARK: - Internal API
     
-    func fetchArticles(context: NSManagedObjectContext, completion: @escaping([ArticleAlias]) -> ()) {}
+    func fetchArticles(completion: @escaping([ArticleAlias]) -> ()) {}
 }
 
 extension ArticlesCoordinator {

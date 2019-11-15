@@ -38,7 +38,10 @@ final class ChannelsDataController {
         channels = []
         fetchChannels()
         
-//        loadChannels()
+        if channelsCount == 0 {
+            loadChannels()
+            fetchChannels()
+        }
     }
     
     // MARK: - Internal API

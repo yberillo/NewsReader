@@ -22,7 +22,7 @@ final class ArticlesDataController {
     }
     
     private let entityName = "Article"
-    
+        
     private let selectedChannels: [Channel]?
     
     // MARK: - Internal Properties
@@ -34,8 +34,9 @@ final class ArticlesDataController {
     // MARK: - Lifecycle
     
     init(selectedChannels: [Channel]?) {
-        articles = []
+        self.articles = []
         self.selectedChannels = selectedChannels
+        
         self.fetchArticles()
     }
     
@@ -56,6 +57,7 @@ final class ArticlesDataController {
         catch let error as NSError {
             print(error)
         }
+        articles = []
         completion()
     }
     
@@ -64,7 +66,6 @@ final class ArticlesDataController {
             
             return
         }
-        self.articles = []
         let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
                     
         var predicates: [NSPredicate] = []
@@ -100,35 +101,32 @@ final class ArticlesDataController {
             return false
         }
         
-        deleteAllArticles(withCompletionHandler: {
-            guard let articleEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-                    
-                return
+        guard let articleEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
+            return false
+        }
+        
+        for article in articles {
+
+            let newArticle = NSManagedObject(entity: articleEntity, insertInto: context)
+            typealias keys = ArticlesDataController.Keys
+
+            newArticle.setValue(article.articleDate, forKey: keys.articleDate)
+            newArticle.setValue(article.articleDescription, forKey: keys.articleDescription)
+            newArticle.setValue(article.articleTitle, forKey: keys.articleTitle)
+            newArticle.setValue(article.channel, forKey: keys.channel)
+            newArticle.setValue(article.imageUrlString, forKey: keys.imageUrlString)
+            newArticle.setValue(article.thumbnailUrlString, forKey: keys.thumbnailUrlString)
+            newArticle.setValue(article.urlString, forKey: keys.urlString)
+
+            do {
+
+                try context.save()
             }
-            
-            for article in articles {
+            catch let error as NSError {
 
-                let newArticle = NSManagedObject(entity: articleEntity, insertInto: context)
-                typealias keys = ArticlesDataController.Keys
-
-                newArticle.setValue(article.articleDate, forKey: keys.articleDate)
-                newArticle.setValue(article.articleDescription, forKey: keys.articleDescription)
-                newArticle.setValue(article.articleTitle, forKey: keys.articleTitle)
-                newArticle.setValue(article.channel, forKey: keys.channel)
-                newArticle.setValue(article.imageUrlString, forKey: keys.imageUrlString)
-                newArticle.setValue(article.thumbnailUrlString, forKey: keys.thumbnailUrlString)
-                newArticle.setValue(article.urlString, forKey: keys.urlString)
-
-                do {
-
-                    try context.save()
-                }
-                catch let error as NSError {
-
-                    print(error)
-                }
+                print(error)
             }
-        })
+        }
         return true
     }
         
@@ -144,32 +142,34 @@ final class ArticlesDataController {
     }
     
     func refetchArticles(completion: @escaping (() -> ())) {
-        guard let selectedChannels = self.selectedChannels else {
-            
-            return
-        }
-        for channel in selectedChannels {
-            
-            var articlesCoordinator: ArticlesCoordinator
-            
-            switch channel.title {
+        deleteAllArticles {
+            guard let selectedChannels = self.selectedChannels else {
                 
-            case ChannelsDataController.Channels.lentaru.rawValue:
-                articlesCoordinator = LentaruArticlesCoordinator(channel: channel)
-                
-            case ChannelsDataController.Channels.tutby.rawValue:
-                articlesCoordinator = TutbyArticlesCoordinator(channel: channel)
-                
-            default:
-                articlesCoordinator = ArticlesCoordinator(channel: channel)
+                return
             }
-            
-            articlesCoordinator.fetchArticles(context: context) { [weak self] (articles)  in
-                let isImported = self?.importArticles(from: articles)
-                if isImported == true
-                {
-                    self?.fetchArticles()
-                    completion()
+            for channel in selectedChannels {
+                
+                var articlesCoordinator: ArticlesCoordinator
+                
+                switch channel.title {
+                    
+                case ChannelsDataController.Channels.lentaru.rawValue:
+                    articlesCoordinator = LentaruArticlesCoordinator(channel: channel)
+                    
+                case ChannelsDataController.Channels.tutby.rawValue:
+                    articlesCoordinator = TutbyArticlesCoordinator(channel: channel)
+                    
+                default:
+                    articlesCoordinator = ArticlesCoordinator(channel: channel)
+                }
+                
+                articlesCoordinator.fetchArticles { [weak self] (articles)  in
+                    let isImported = self?.importArticles(from: articles)
+                    if isImported == true
+                    {
+                        self?.fetchArticles()
+                        completion()
+                    }
                 }
             }
         }

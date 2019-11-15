@@ -13,17 +13,19 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
     
     // MARK: - Strings
     
-    let brOpeningString = "<br"
+    private let brOpeningString = "<br"
     
-    let entityName = "Article"
+    private let entityName = "Article"
     
-    let imageUrlStringClosingString = "\""
+    private let imageUrlStringClosingString = "\""
     
-    let imgClosingString = "/>"
+    private let imgClosingString = "/>"
+    
+    private let imgOpeningString = "<img src=\""
     
     // MARK: - Internal API
     
-    override func fetchArticles(context: NSManagedObjectContext, completion: @escaping([ArticleAlias]) -> ()) {
+    override func fetchArticles(completion: @escaping([ArticleAlias]) -> ()) {
         
         guard let rssUrlString = self.channel.url, let rssUrl = URL(string: rssUrlString) else {
             
@@ -69,8 +71,11 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
         guard let descriptionString = descriptionString else {
             return ("", "")
         }
+        var tempString = descriptionString
         
-        var tempString = String(descriptionString.suffix(from: descriptionString.index(descriptionString.startIndex, offsetBy: 10)))
+        if let imgOpeningRange = tempString.range(of: imgOpeningString) {
+            tempString = String(tempString.suffix(from: imgOpeningRange.upperBound))
+        }
         let imageUrlString: String
         if let imageUrlStringClosingRange = tempString.range(of: imageUrlStringClosingString) {
             imageUrlString = String(tempString.prefix(upTo: imageUrlStringClosingRange.lowerBound))
@@ -96,14 +101,6 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
 extension TutbyArticlesCoordinator {
     
     class Keys: NSObject, RSSParserKeys {
-        
-        static var author: String {
-            return "author"
-        }
-        
-        static var content: String {
-            return "content"
-        }
         
         static var description: String {
            return "description"
