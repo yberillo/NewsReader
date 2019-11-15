@@ -68,7 +68,6 @@ final class ChannelsViewController: UITableViewController {
             
             return
         }
-//        articlesViewController.navigationItemTitle = channelsDataController.channel(at: selectedIndex)?.title
         articlesViewController.selectedChannels = []
         
         for cell in tableView.visibleCells {
@@ -83,12 +82,6 @@ final class ChannelsViewController: UITableViewController {
                 articlesViewController.selectedChannels?.append(channel)
             }
         }
-        
-//        for indexPath in indexPathsForSelectedRows {
-//            if let channel = channelsDataController.channel(at: indexPath.item) {
-//                articlesViewController.selectedChannels?.append(channel)
-//            }
-//        }
     }
     
     // MARK: - Private API

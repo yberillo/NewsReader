@@ -12,11 +12,15 @@ final class ArticleViewController: UIViewController {
     
     // MARK: - Outlets
     
+    @IBOutlet weak var contentViewBottomEqualLinkLabelBottomVerticalSpace: NSLayoutConstraint!
+    
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var linkLabel: UILabel!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var textLabel: UILabel!
         
@@ -73,6 +77,11 @@ final class ArticleViewController: UIViewController {
         linkLabel.addGestureRecognizer(gestureRecognizer)
         
         gestureRecognizer.addTarget(self, action: #selector(self.gestureRecognizerTap))
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        scrollView.contentSize.height = linkLabel.frame.maxY + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
     }
     
     // MARK: - Actions

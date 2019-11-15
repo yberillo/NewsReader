@@ -28,13 +28,6 @@ final class UsersDataController {
     
     private(set)var currentUser: User?
     
-    // MARK: - Lifecycle
-    
-    init() {
-        
-//        loadUsers()
-    }
-    
     // MARK: - Internal API
     
     func authenticateUser(with username: String, password: String) -> User? {

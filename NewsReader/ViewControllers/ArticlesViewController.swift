@@ -46,8 +46,6 @@ final class ArticlesViewController: UITableViewController {
         articlesDataController.refetchArticles(completion: { [weak self] in
             self?.tableView.reloadData()
         })
-        
-        tableView.reloadData()
     }
     
     // MARK: - Private API
@@ -86,6 +84,9 @@ final class ArticlesViewController: UITableViewController {
             
             return UITableViewCell()
         }
+        cell.articleImageView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        cell.articleImageView.image = nil
+        
         cell.channelLabel.text = article.channel?.title
         
         let dateFormatter = DateFormatter()
@@ -105,6 +106,7 @@ final class ArticlesViewController: UITableViewController {
             image = UIImage(data: imageData)
             DispatchQueue.main.async {
                 
+                cell.articleImageView.backgroundColor = .clear
                 cell.articleImageView.image = image
             }
         }

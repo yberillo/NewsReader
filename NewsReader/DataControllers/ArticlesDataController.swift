@@ -149,20 +149,7 @@ final class ArticlesDataController {
             }
             for channel in selectedChannels {
                 
-                var articlesCoordinator: ArticlesCoordinator
-                
-                switch channel.title {
-                    
-                case ChannelsDataController.Channels.lentaru.rawValue:
-                    articlesCoordinator = LentaruArticlesCoordinator(channel: channel)
-                    
-                case ChannelsDataController.Channels.tutby.rawValue:
-                    articlesCoordinator = TutbyArticlesCoordinator(channel: channel)
-                    
-                default:
-                    articlesCoordinator = ArticlesCoordinator(channel: channel)
-                }
-                
+                let articlesCoordinator = ArticlesCoordinator.getCoordinatorFor(channel: channel)
                 articlesCoordinator.fetchArticles { [weak self] (articles)  in
                     let isImported = self?.importArticles(from: articles)
                     if isImported == true

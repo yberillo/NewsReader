@@ -24,6 +24,22 @@ class ArticlesCoordinator: NSObject {
     // MARK: - Internal API
     
     func fetchArticles(completion: @escaping([ArticleAlias]) -> ()) {}
+    
+    // MARK: - Internal Static API
+    
+    static func getCoordinatorFor(channel: Channel) -> ArticlesCoordinator {
+        switch channel.title {
+
+        case ChannelsDataController.Channels.lentaru.rawValue:
+            return LentaruArticlesCoordinator(channel: channel)
+
+        case ChannelsDataController.Channels.tutby.rawValue:
+            return TutbyArticlesCoordinator(channel: channel)
+
+        default:
+            return ArticlesCoordinator(channel: channel)
+        }
+    }
 }
 
 extension ArticlesCoordinator {
