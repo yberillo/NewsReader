@@ -58,6 +58,26 @@ final class ChannelsDataController {
         }
     }
     
+    func getSelectedChannels(for user: User) -> [Channel] {
+        guard let channels = user.channels?.sortedArray(using: []) as? [Channel] else {
+            return []
+        }
+        return channels
+    }
+    
+    func save(selectedChannels: [Channel], for user: User) {
+        user.channels = nil
+        user.addToChannels(NSSet(array: selectedChannels))
+        do {
+            
+            try context.save()
+        }
+        catch let error as NSError {
+            
+            print(error)
+        }
+    }
+    
     // MARK: - Private API
     
     private func fetchChannels() {
@@ -81,7 +101,7 @@ final class ChannelsDataController {
         }
     }
     
-    func loadChannels() {
+    private func loadChannels() {
         guard let channelEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             
             return
