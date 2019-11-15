@@ -13,16 +13,18 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <relationship name="inArticle" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Article" inverseName="channel" inverseEntity="Article"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="channels" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="isSignedIn" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
+        <relationship name="channels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Channel" inverseName="users" inverseEntity="Channel"/>
     </entity>
     <elements>
         <element name="Article" positionX="-54" positionY="18" width="128" height="148"/>
-        <element name="Channel" positionX="-54" positionY="18" width="128" height="88"/>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Channel" positionX="-54" positionY="18" width="128" height="103"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>
