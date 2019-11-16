@@ -14,6 +14,8 @@ final class ArticlesDataController {
     // MARK: - Private Properties
     
     private var articles: [Article]
+    
+    private var channelsLoadedCount: Int
         
     private var context: NSManagedObjectContext {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -22,8 +24,12 @@ final class ArticlesDataController {
     }
     
     private let entityName = "Article"
-        
+            
     private let selectedChannels: [Channel]?
+    
+    private var shouldDeleteArticles: Bool {
+        return self.channelsLoadedCount == 1 ? true : false
+    }
     
     // MARK: - Internal Properties
     
@@ -35,6 +41,7 @@ final class ArticlesDataController {
     
     init(selectedChannels: [Channel]?) {
         self.articles = []
+        self.channelsLoadedCount = 0
         self.selectedChannels = selectedChannels
         
         self.fetchArticles()
@@ -42,7 +49,11 @@ final class ArticlesDataController {
     
     // MARK: - Private API
     
-    private func deleteAllArticles(withCompletionHandler completion: (() -> ())) {
+    private func deleteAllArticlesIfNeeded(withCompletionHandler completion: (() -> ())) {
+        if !shouldDeleteArticles {
+            completion()
+            return
+        }
         let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
         articlesFetchRequest.returnsObjectsAsFaults = false
         do {
@@ -66,6 +77,7 @@ final class ArticlesDataController {
             
             return
         }
+        self.articles = []
         let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
                     
         var predicates: [NSPredicate] = []
@@ -96,13 +108,13 @@ final class ArticlesDataController {
         }
     }
     
-    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias]) -> Bool {
+    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias]) {
         if articles.isEmpty {
-            return false
+            return
         }
         
         guard let articleEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            return false
+            return
         }
         
         for article in articles {
@@ -127,7 +139,6 @@ final class ArticlesDataController {
                 ErrorManager.handle(error: error)
             }
         }
-        return true
     }
         
     // MARK: - Internal API
@@ -142,21 +153,22 @@ final class ArticlesDataController {
     }
     
     func refetchArticles(completion: @escaping (() -> ())) {
-        deleteAllArticles {
-            guard let selectedChannels = self.selectedChannels else {
-                
-                return
-            }
-            for channel in selectedChannels {
-                
-                let articlesCoordinator = ArticlesCoordinator.getCoordinatorFor(channel: channel)
-                articlesCoordinator.fetchArticles { [weak self] (articles)  in
-                    let isImported = self?.importArticles(from: articles)
-                    if isImported == true
-                    {
-                        self?.fetchArticles()
-                        completion()
-                    }
+        self.channelsLoadedCount = 0
+        guard let selectedChannels = self.selectedChannels else {
+            
+            return
+        }
+        for channel in selectedChannels {
+            
+            let articlesCoordinator = ArticlesCoordinator.getCoordinatorFor(channel: channel)
+            articlesCoordinator.fetchArticles { [weak self] (articles)  in
+                if !articles.isEmpty {
+                    self?.channelsLoadedCount += 1
+                }
+                self?.deleteAllArticlesIfNeeded {
+                    self?.importArticles(from: articles)
+                    self?.fetchArticles()
+                    completion()
                 }
             }
         }

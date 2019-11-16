@@ -208,9 +208,9 @@
 		D1A26BD3237C30260071461D /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				D179BB3B237FE3EB00E36952 /* ErrorManager.swift */,
 				D1A26BD4237C303A0071461D /* RSSParser.swift */,
 				D1ABA549237D74E300D5108D /* RSSParserKeys.swift */,
-				D179BB3B237FE3EB00E36952 /* ErrorManager.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";

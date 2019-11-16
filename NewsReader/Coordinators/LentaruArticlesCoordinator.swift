@@ -18,31 +18,32 @@ final class LentaruArticlesCoordinator: ArticlesCoordinator {
         }
         let parser = RSSParser(rssParseKeys: TutbyArticlesCoordinator.Keys.self)
         DispatchQueue.global().async {
-            parser.parseFrom(url: rssUrl) { [weak self] (_) in
-                
-                var articles: [ArticleAlias] = []
-                for element in parser.parsedData {
+            parser.parseFrom(url: rssUrl) { [weak self] (parsed) in
+                if parsed {
+                    var articles: [ArticleAlias] = []
+                    for element in parser.parsedData {
 
-                    guard let strongSelf = self else {
-                        return
+                        guard let strongSelf = self else {
+                            return
+                        }
+                        let article = ArticleAlias()
+                        typealias keys = Keys
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+                        let date = dateFormatter.date(from: element[keys.pubDate] ?? "")
+                        article.articleDate = date
+                        article.articleDescription = element[keys.description]
+                        article.articleTitle = element[keys.title]
+                        article.imageUrlString = element[keys.enclosure]
+                        article.channel = strongSelf.channel
+                        article.urlString = element[keys.link]
+                        article.thumbnailUrlString = element[keys.enclosure]
+                       
+                        articles.append(article)
                     }
-                    let article = ArticleAlias()
-                    typealias keys = Keys
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-                    let date = dateFormatter.date(from: element[keys.pubDate] ?? "")
-                    article.articleDate = date
-                    article.articleDescription = element[keys.description]
-                    article.articleTitle = element[keys.title]
-                    article.imageUrlString = element[keys.enclosure]
-                    article.channel = strongSelf.channel
-                    article.urlString = element[keys.link]
-                    article.thumbnailUrlString = element[keys.enclosure]
-                   
-                    articles.append(article)
-                }
-                DispatchQueue.main.async {
-                    completion(articles)
+                    DispatchQueue.main.async {
+                        completion(articles)
+                    }
                 }
             }
         }
