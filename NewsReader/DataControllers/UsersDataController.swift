@@ -6,6 +6,7 @@
 //  Copyright © 2019 Yury Beryla. All rights reserved.
 //
 
+import CryptoKit
 import CoreData
 import Foundation
 import UIKit
@@ -36,7 +37,8 @@ final class UsersDataController {
         let usernamePredicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
         predicates.append(usernamePredicate)
         
-        let passwordPredicate = NSPredicate(format: "\(UsersDataController.Keys.password) = %@", password)
+        let passwordHash = self.encrypt(string: password)
+        let passwordPredicate = NSPredicate(format: "\(UsersDataController.Keys.password) = %@", passwordHash)
         predicates.append(passwordPredicate)
         
         userFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
@@ -80,7 +82,9 @@ final class UsersDataController {
                 let user = NSManagedObject(entity: userEntity, insertInto: context)
                 user.setValue(username, forKey: UsersDataController.Keys.username)
                 user.setValue("Ivan Ivanov", forKey: UsersDataController.Keys.name)
-                user.setValue(password, forKey: UsersDataController.Keys.password)
+                
+                let passwordHash = encrypt(string: password)
+                user.setValue(passwordHash, forKey: UsersDataController.Keys.password)
 
                 do {
                     
@@ -151,6 +155,13 @@ final class UsersDataController {
     }
     
     // MARK: - Private API
+    
+    private func encrypt(string: String) -> String {
+        let stringData = Data(string.utf8)
+        let hashData = SHA256.hash(data: stringData)
+
+        return hashData.compactMap { String(format: "%02x", $0) }.joined()
+    }
     
     private func loadUsers() {
         guard let userEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
