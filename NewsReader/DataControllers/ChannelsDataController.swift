@@ -74,7 +74,7 @@ final class ChannelsDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
     
@@ -97,7 +97,7 @@ final class ChannelsDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
     
@@ -121,7 +121,7 @@ final class ChannelsDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
 }

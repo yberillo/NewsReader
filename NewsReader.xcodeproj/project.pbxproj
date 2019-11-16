@@ -22,6 +22,7 @@
 		D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */; };
 		D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784431237AF05F0050C56E /* ChannelsViewController.swift */; };
 		D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784433237B01A10050C56E /* ChannelsDataController.swift */; };
+		D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D179BB3B237FE3EB00E36952 /* ErrorManager.swift */; };
 		D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */; };
 		D1A26BD0237C28410071461D /* LentaruArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCF237C28410071461D /* LentaruArticlesCoordinator.swift */; };
 		D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD1237C2A820071461D /* TutbyArticlesCoordinator.swift */; };
@@ -52,6 +53,7 @@
 		D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
 		D1784431237AF05F0050C56E /* ChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewController.swift; sourceTree = "<group>"; };
 		D1784433237B01A10050C56E /* ChannelsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataController.swift; sourceTree = "<group>"; };
+		D179BB3B237FE3EB00E36952 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCoordinator.swift; sourceTree = "<group>"; };
 		D1A26BCF237C28410071461D /* LentaruArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaruArticlesCoordinator.swift; sourceTree = "<group>"; };
 		D1A26BD1237C2A820071461D /* TutbyArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutbyArticlesCoordinator.swift; sourceTree = "<group>"; };
@@ -103,8 +105,8 @@
 		D1784401237AC9650050C56E /* NewsReader */ = {
 			isa = PBXGroup;
 			children = (
-				D1A26BCC237C27BA0071461D /* Coordinators */,
 				D1784402237AC9650050C56E /* AppDelegate.swift */,
+				D1A26BCC237C27BA0071461D /* Coordinators */,
 				D1784420237ACFAB0050C56E /* DataControllers */,
 				D178441F237ACD3C0050C56E /* Miscellaneous */,
 				D178441C237ACD080050C56E /* Models */,
@@ -208,6 +210,7 @@
 			children = (
 				D1A26BD4237C303A0071461D /* RSSParser.swift */,
 				D1ABA549237D74E300D5108D /* RSSParserKeys.swift */,
+				D179BB3B237FE3EB00E36952 /* ErrorManager.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */,
 				D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */,
 				D1784407237AC9650050C56E /* LoginViewController.swift in Sources */,
+				D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
 				D1A26BD0237C28410071461D /* LentaruArticlesCoordinator.swift in Sources */,
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,

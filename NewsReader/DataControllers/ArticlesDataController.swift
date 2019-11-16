@@ -55,7 +55,7 @@ final class ArticlesDataController {
             }
         }
         catch let error as NSError {
-            print(error)
+            ErrorManager.handle(error: error)
         }
         articles = []
         completion()
@@ -92,7 +92,7 @@ final class ArticlesDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
     
@@ -124,7 +124,7 @@ final class ArticlesDataController {
             }
             catch let error as NSError {
 
-                print(error)
+                ErrorManager.handle(error: error)
             }
         }
         return true

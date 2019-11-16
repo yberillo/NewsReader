@@ -122,7 +122,6 @@ final class ChannelsViewController: UITableViewController {
         guard let currentUser = usersDataController?.currentUser else {
             return
         }
-        
         channelsDataController.save(selectedChannels: selectedChannels, for: currentUser)
     }
 

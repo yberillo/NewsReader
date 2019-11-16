@@ -57,7 +57,7 @@ final class UsersDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
             return nil
         }
     }
@@ -88,7 +88,7 @@ final class UsersDataController {
                 }
                 catch let error as NSError {
                     
-                    print(error)
+                    ErrorManager.handle(error: error)
                     return false
                 }
                 return true
@@ -99,7 +99,7 @@ final class UsersDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
             return false
         }
     }
@@ -124,7 +124,7 @@ final class UsersDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
             return nil
         }
     }
@@ -146,7 +146,7 @@ final class UsersDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
     
@@ -169,7 +169,7 @@ final class UsersDataController {
         }
         catch let error as NSError {
             
-            print(error)
+            ErrorManager.handle(error: error)
         }
     }
 }
