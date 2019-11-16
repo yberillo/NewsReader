@@ -24,7 +24,6 @@ final class RootViewController: UIViewController, LoginViewControllerDelegate, C
             oldValue?.removeFromParent()
             
             if let currentViewController = self.currentViewController {
-                
                 self.view.addSubview(currentViewController.view)
                 self.addChild(currentViewController)
                 currentViewController.didMove(toParent: self)
@@ -47,7 +46,6 @@ final class RootViewController: UIViewController, LoginViewControllerDelegate, C
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     // MARK: - Private API
@@ -59,28 +57,24 @@ final class RootViewController: UIViewController, LoginViewControllerDelegate, C
             channelsViewController?.usersDataController = usersDataController
             channelsViewController?.delegate = self
             currentViewController = channelsNavigationController
-            
         }
         else {
             let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController") as? LoginViewController
             loginViewController?.delegate = self
             loginViewController?.usersDataController = usersDataController
             currentViewController = loginViewController
-            
         }
     }
     
     // MARK: - LoginViewControllerDelegate
     
     func signIn() {
-        
         reloadCurrentViewController()
     }
     
     // MARK: - ChannelsViewControllerDelegate
     
     func signOut() {
-        
         reloadCurrentViewController()
     }
 }

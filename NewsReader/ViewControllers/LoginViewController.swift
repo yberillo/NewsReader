@@ -95,11 +95,9 @@ final class LoginViewController: UIViewController {
         _ = usersDataController?.authenticateUser(with: username, password: password)
         
         if usersDataController?.currentUser == nil {
-            
             invalidLabel.isHidden = false
         }
         else {
-            
             invalidLabel.isHidden = true
             self.delegate?.signIn()
         }

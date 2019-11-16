@@ -20,11 +20,9 @@ final class UsersDataController {
         
         return appDelegate.persistentContainer.viewContext
     }
-    
-    private let userObjectIDKey = "userObjectID"
-    
+        
     private let entityName = "User"
-    
+        
     // MARK: Internal Properties
     
     private(set)var currentUser: User?
@@ -37,14 +35,13 @@ final class UsersDataController {
         let usernamePredicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
         predicates.append(usernamePredicate)
         
-        let passwordHash = self.encrypt(string: password)
+        let passwordHash = self.getHashFrom(string: password)
         let passwordPredicate = NSPredicate(format: "\(UsersDataController.Keys.password) = %@", passwordHash)
         predicates.append(passwordPredicate)
         
         userFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
                     
         do {
-            
             let userResult = try self.context.fetch(userFetchRequest)
             
             if userResult.isEmpty {
@@ -58,7 +55,6 @@ final class UsersDataController {
             }
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
             return nil
         }
@@ -71,27 +67,20 @@ final class UsersDataController {
         userFetchRequest.predicate = predicate
                     
         do {
-            
             let userResult = try self.context.fetch(userFetchRequest)
             
             if userResult.isEmpty {
-                guard let userEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-                    return false
-                }
-                
-                let user = NSManagedObject(entity: userEntity, insertInto: context)
+                let user = User(context: context)
                 user.setValue(username, forKey: UsersDataController.Keys.username)
                 user.setValue("Ivan Ivanov", forKey: UsersDataController.Keys.name)
                 
-                let passwordHash = encrypt(string: password)
+                let passwordHash = getHashFrom(string: password)
                 user.setValue(passwordHash, forKey: UsersDataController.Keys.password)
 
                 do {
-                    
                     try context.save()
                 }
                 catch let error as NSError {
-                    
                     ErrorManager.handle(error: error)
                     return false
                 }
@@ -102,20 +91,16 @@ final class UsersDataController {
             }
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
             return false
         }
     }
     
     func restoreUser() -> User? {
-        
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-        
         userFetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
                     
         do {
-            
             let userResult = try self.context.fetch(userFetchRequest)
             
             if userResult.isEmpty {
@@ -127,20 +112,16 @@ final class UsersDataController {
             }
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
             return nil
         }
     }
     
     func signOut() {
-        
         let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-        
         userFetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
                     
         do {
-            
             let userResult = try self.context.fetch(userFetchRequest)
             let currentUser = userResult.first as? User
             currentUser?.isSignedIn = false
@@ -149,39 +130,17 @@ final class UsersDataController {
             try context.save()
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
         }
     }
     
     // MARK: - Private API
     
-    private func encrypt(string: String) -> String {
+    private func getHashFrom(string: String) -> String {
         let stringData = Data(string.utf8)
         let hashData = SHA256.hash(data: stringData)
 
         return hashData.compactMap { String(format: "%02x", $0) }.joined()
-    }
-    
-    private func loadUsers() {
-        guard let userEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            
-            return
-        }
-        
-        let user = NSManagedObject(entity: userEntity, insertInto: context)
-        user.setValue("user", forKey: UsersDataController.Keys.username)
-        user.setValue("Ivan Ivanov", forKey: UsersDataController.Keys.name)
-        user.setValue("password", forKey: UsersDataController.Keys.password)
-
-        do {
-            
-            try context.save()
-        }
-        catch let error as NSError {
-            
-            ErrorManager.handle(error: error)
-        }
     }
 }
 

@@ -38,7 +38,6 @@ final class ChannelsViewController: UITableViewController {
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        
         channelsDataController = ChannelsDataController()
         viewModel = ChannelsViewModel()
         
@@ -73,7 +72,6 @@ final class ChannelsViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let articlesViewController = segue.destination as? ArticlesViewController else {
-            
             return
         }
         saveSelectedChannels()

@@ -27,14 +27,12 @@ final class ChannelsDataController {
     // MARK: - Internal Properties
     
     var channelsCount: Int {
-        
         return channels.count
     }
     
     // MARK: - Lifecycle
     
     init() {
-        
         channels = []
         fetchChannels()
         
@@ -48,12 +46,9 @@ final class ChannelsDataController {
     
     func channel(at index: Int) -> Channel? {
         if index < channels.count {
-            
             return channels[index]
-
         }
         else {
-            
             return nil
         }
     }
@@ -69,11 +64,9 @@ final class ChannelsDataController {
         user.channels = nil
         user.addToChannels(NSSet(array: selectedChannels))
         do {
-            
             try context.save()
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
         }
     }
@@ -84,43 +77,31 @@ final class ChannelsDataController {
         let channelFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
                     
         do {
-            
             guard let channelResult = try self.context.fetch(channelFetchRequest) as? [Channel] else {
-                
                 return
             }
-                        
             for channel in channelResult {
-                
                 self.channels.append(channel)
             }
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
         }
     }
     
     private func loadChannels() {
-        guard let channelEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            
-            return
-        }
-        
-        let channel1 = NSManagedObject(entity: channelEntity, insertInto: context)
+        let channel1 = Channel(context: context)
         channel1.setValue("Tut.by", forKey: "title")
         channel1.setValue("https://news.tut.by/rss/index.rss", forKey: "url")
         
-        let channel2 = NSManagedObject(entity: channelEntity, insertInto: context)
+        let channel2 = Channel(context: context)
         channel2.setValue("Lenta.ru", forKey: "title")
         channel2.setValue("https://lenta.ru/rss", forKey: "url")
 
         do {
-            
             try context.save()
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
         }
     }

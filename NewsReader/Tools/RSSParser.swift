@@ -45,11 +45,9 @@ final class RSSParser: NSObject, XMLParserDelegate {
     // MARK: - Internal API
     
     func parseFrom(url: URL, completionHandler: (Bool) -> ()) {
-        
         let parser = XMLParser(contentsOf: url)
         parser?.delegate = self
         if let parsed = parser?.parse() {
-            
             parsedData.append(currentData)
             completionHandler(parsed)
         }
@@ -58,29 +56,22 @@ final class RSSParser: NSObject, XMLParserDelegate {
     // MARK: - XMLParserDelegate
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        
         currentElement = elementName
         
         if currentElement == rssParseKeys.item {
-            
             if isHeader == false {
                 parsedData.append(currentData)
             }
-            
             isHeader = false
         }
-        
         if isHeader == false {
-            
             if currentElement == rssParseKeys.enclosure {
-                
                 foundCharacters += attributeDict[rssParseKeys.url]!
             }
         }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        
         if isHeader == false {
             if currentElement == rssParseKeys.description
                 || currentElement == rssParseKeys.item
@@ -96,7 +87,6 @@ final class RSSParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         if !foundCharacters.isEmpty {
-            
             foundCharacters = foundCharacters.trimmingCharacters(in: .whitespacesAndNewlines)
             currentData[currentElement] = foundCharacters
             foundCharacters = ""

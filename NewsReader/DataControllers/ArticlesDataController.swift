@@ -83,7 +83,6 @@ final class ArticlesDataController {
         var predicates: [NSPredicate] = []
         
         for channel in selectedChannels {
-            
             let predicate = NSPredicate(format: "\(ArticlesDataController.Keys.channel) = %@", channel)
             predicates.append(predicate)
         }
@@ -91,19 +90,14 @@ final class ArticlesDataController {
         articlesFetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
                     
         do {
-            
             guard let articles = try self.context.fetch(articlesFetchRequest) as? [Article] else {
-                
                 return
             }
-                        
             for article in articles {
-                
                 self.articles.append(article)
             }
         }
         catch let error as NSError {
-            
             ErrorManager.handle(error: error)
         }
     }
@@ -112,14 +106,8 @@ final class ArticlesDataController {
         if articles.isEmpty {
             return
         }
-        
-        guard let articleEntity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
-            return
-        }
-        
         for article in articles {
-
-            let newArticle = NSManagedObject(entity: articleEntity, insertInto: context)
+            let newArticle = Article(context: context)
             typealias keys = ArticlesDataController.Keys
 
             newArticle.setValue(article.articleDate, forKey: keys.articleDate)
@@ -131,11 +119,9 @@ final class ArticlesDataController {
             newArticle.setValue(article.urlString, forKey: keys.urlString)
 
             do {
-
                 try context.save()
             }
             catch let error as NSError {
-
                 ErrorManager.handle(error: error)
             }
         }
@@ -155,11 +141,9 @@ final class ArticlesDataController {
     func refetchArticles(completion: @escaping (() -> ())) {
         self.channelsLoadedCount = 0
         guard let selectedChannels = self.selectedChannels else {
-            
             return
         }
         for channel in selectedChannels {
-            
             let articlesCoordinator = ArticlesCoordinator.getCoordinatorFor(channel: channel)
             articlesCoordinator.fetchArticles { [weak self] (articles)  in
                 if !articles.isEmpty {

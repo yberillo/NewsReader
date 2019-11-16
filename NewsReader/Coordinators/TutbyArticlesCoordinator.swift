@@ -26,7 +26,6 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
     // MARK: - Internal API
     
     override func fetchArticles(completion: @escaping([ArticleAlias]) -> ()) {
-        
         guard let rssUrlString = self.channel.url, let rssUrl = URL(string: rssUrlString) else {
             
             return
@@ -37,7 +36,6 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
                 if parsed {
                     var articles: [ArticleAlias] = []
                     for element in parser.parsedData {
-
                         guard let strongSelf = self else {
                             return
                         }

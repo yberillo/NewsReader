@@ -22,7 +22,6 @@ final class LentaruArticlesCoordinator: ArticlesCoordinator {
                 if parsed {
                     var articles: [ArticleAlias] = []
                     for element in parser.parsedData {
-
                         guard let strongSelf = self else {
                             return
                         }

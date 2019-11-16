@@ -37,7 +37,6 @@ final class ArticleViewController: UIViewController {
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        
         gestureRecognizer = UITapGestureRecognizer()
         
         super.init(coder: coder)
@@ -61,14 +60,11 @@ final class ArticleViewController: UIViewController {
                     
                     return
             }
-              
             image = UIImage(data: imageData)
             DispatchQueue.main.async {
-                
                 self?.imageView.image = image
             }
         }
-        
         linkLabel.text = article.urlString
         linkLabel.isUserInteractionEnabled = true
         textLabel.text = article.articleDescription
@@ -80,7 +76,6 @@ final class ArticleViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        
         scrollView.contentSize.height = linkLabel.frame.maxY + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
     }
     
