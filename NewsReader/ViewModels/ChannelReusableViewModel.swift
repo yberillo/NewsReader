@@ -15,6 +15,10 @@ final class ChannelReusableViewModel {
     let channelSwitchIsOn: Bool
 
     let channelTitleLabelText: String?
+    
+    // MARK: - Internal Static Properties
+    
+    static let reusableIdentifier = "ChannelReusableView"
         
     // MARK: - Lifecycle
     

@@ -2,7 +2,7 @@
 //  ChannelReusableView.swift
 //  NewsReader
 //
-//  Created by Yury Beryla on 11/14/19.
+//  Created by Yury Beryla on 11/18/19.
 //  Copyright © 2019 Yury Beryla. All rights reserved.
 //
 

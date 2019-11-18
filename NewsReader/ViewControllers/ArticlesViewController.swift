@@ -11,9 +11,7 @@ import UIKit
 final class ArticlesViewController: UITableViewController {
     
     // MARK: - Private Properties
-    
-    let articleReusableViewIdentifier = "ArticleReusableView"
-    
+        
     var articlesDataController: ArticlesDataController
     
     var viewModel: ArticlesViewModel {
@@ -46,6 +44,7 @@ final class ArticlesViewController: UITableViewController {
         articlesDataController.refetchArticles(completion: { [weak self] in
             self?.tableView.reloadData()
         })
+        tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
     }
     
     // MARK: - Private API
@@ -106,8 +105,7 @@ final class ArticlesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: articleReusableViewIdentifier, for: indexPath) as? ArticleReusableView,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ArticleReusableViewModel.reusableIdentifier, for: indexPath) as? ArticleReusableView,
             let article = articlesDataController.article(at: indexPath.item) else {
             
             return UITableViewCell()

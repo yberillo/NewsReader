@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelReusableView" rowHeight="66" id="9vf-I9-D7G" customClass="ChannelReusableView" customModule="NewsReader" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9vf-I9-D7G" id="ZXJ-aV-g6Z">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="66"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJz-Lc-H8s">
+                        <rect key="frame" x="20" y="20" width="42" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="tK6-nY-eD7"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gn0-rW-yg7">
+                        <rect key="frame" x="345" y="14.5" width="51" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="49" id="AN4-KS-Dae"/>
+                        </constraints>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Gn0-rW-yg7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oJz-Lc-H8s" secondAttribute="trailing" constant="20" id="53X-WA-pfO"/>
+                    <constraint firstItem="oJz-Lc-H8s" firstAttribute="top" secondItem="ZXJ-aV-g6Z" secondAttribute="top" constant="20" id="aA3-gX-VrT"/>
+                    <constraint firstItem="oJz-Lc-H8s" firstAttribute="leading" secondItem="ZXJ-aV-g6Z" secondAttribute="leading" constant="20" id="qJd-x7-7CV"/>
+                    <constraint firstItem="Gn0-rW-yg7" firstAttribute="centerY" secondItem="oJz-Lc-H8s" secondAttribute="centerY" id="vlv-te-vzT"/>
+                    <constraint firstAttribute="trailing" secondItem="Gn0-rW-yg7" secondAttribute="trailing" constant="20" id="z9d-Co-RMj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="channelSwitch" destination="Gn0-rW-yg7" id="TcC-Tt-KUu"/>
+                <outlet property="channelTitleLabel" destination="oJz-Lc-H8s" id="zz9-fh-PLA"/>
+            </connections>
+            <point key="canvasLocation" x="339" y="19"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -50,6 +50,8 @@ final class ChannelsViewController: UITableViewController {
         reloadViewModel()
         reloadSelectedChannels()
         
+        tableView.register(UINib(nibName: ChannelReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ChannelReusableViewModel.reusableIdentifier)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
@@ -135,7 +137,7 @@ final class ChannelsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelReusableView", for: indexPath) as? ChannelReusableView,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChannelReusableViewModel.reusableIdentifier, for: indexPath) as? ChannelReusableView,
             let channel = channelsDataController.channel(at: indexPath.item) else {
                 return UITableViewCell()
         }

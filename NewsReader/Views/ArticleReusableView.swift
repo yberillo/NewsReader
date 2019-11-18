@@ -2,7 +2,7 @@
 //  ArticleReusableView.swift
 //  NewsReader
 //
-//  Created by Yury Beryla on 11/13/19.
+//  Created by Yury Beryla on 11/18/19.
 //  Copyright © 2019 Yury Beryla. All rights reserved.
 //
 
@@ -17,6 +17,6 @@ final class ArticleReusableView: UITableViewCell {
     @IBOutlet weak var channelLabel: UILabel!
     
     @IBOutlet weak var dateLabel: UILabel!
-        
+    
     @IBOutlet weak var titleLabel: UILabel!
 }

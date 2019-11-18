@@ -22,6 +22,10 @@ final class ArticleReusableViewModel {
     
     let titleLabelText: String?
     
+    // MARK: - Internal Static Properties
+    
+    static let reusableIdentifier = "ArticleReusableView"
+    
     // MARK: - Lifecycle
     
     init(article: Article) {
