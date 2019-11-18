@@ -33,6 +33,7 @@
 		D1ABA550237D9B4D00D5108D /* ArticleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54F237D9B4D00D5108D /* ArticleWebViewController.swift */; };
 		D1ABA552237DA9CA00D5108D /* ChannelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA551237DA9CA00D5108D /* ChannelReusableView.swift */; };
 		D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C84AC1237BE457007186A8 /* RootViewController.swift */; };
+		D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		D1ABA54F237D9B4D00D5108D /* ArticleWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebViewController.swift; sourceTree = "<group>"; };
 		D1ABA551237DA9CA00D5108D /* ChannelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelReusableView.swift; sourceTree = "<group>"; };
 		D1C84AC1237BE457007186A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleReusableViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		D1784423237ADFAC0050C56E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */,
 				D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */,
 				D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */,
 				D1784424237ADFC80050C56E /* LoginViewModel.swift */,
@@ -291,6 +294,7 @@
 				D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */,
 				D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */,
 				D1784407237AC9650050C56E /* LoginViewController.swift in Sources */,
+				D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */,
 				D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
 				D1A26BD0237C28410071461D /* LentaruArticlesCoordinator.swift in Sources */,

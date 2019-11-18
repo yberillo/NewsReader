@@ -50,6 +50,34 @@ final class ArticlesViewController: UITableViewController {
     
     // MARK: - Private API
     
+    private func apply(viewModel: ArticleReusableViewModel, to cell: ArticleReusableView) {
+        cell.articleImageView.backgroundColor = viewModel.articleImageViewBackgroundColor
+        cell.channelLabel.text = viewModel.channelLabelText
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        cell.dateLabel.text = viewModel.dateLabelText
+        
+        var image: UIImage?
+        cell.articleImageView.image = nil
+        DispatchQueue.global().async {
+            guard let imageUrlString = viewModel.articleImageViewImageUrlString,
+                let imageUrl = URL(string: imageUrlString),
+                let imageData = try? Data(contentsOf: imageUrl) else {
+                    
+                    return
+            }
+              
+            image = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                
+                cell.articleImageView.backgroundColor = .clear
+                cell.articleImageView.image = image
+            }
+        }
+        cell.titleLabel.text = viewModel.titleLabelText
+    }
+    
     private func refreshView() {
         
         self.navigationItem.rightBarButtonItem?.title = viewModel.signOutButtonTitle
@@ -84,33 +112,8 @@ final class ArticlesViewController: UITableViewController {
             
             return UITableViewCell()
         }
-        cell.articleImageView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
-        cell.articleImageView.image = nil
-        
-        cell.channelLabel.text = article.channel?.title
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        cell.dateLabel.text = dateFormatter.string(from: article.articleDate ?? Date())
-        
-        var image: UIImage?
-        
-        DispatchQueue.global().async {
-            guard let imageUrlString = article.thumbnailUrlString,
-                let imageUrl = URL(string: imageUrlString),
-                let imageData = try? Data(contentsOf: imageUrl) else {
-                    
-                    return
-            }
-              
-            image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                
-                cell.articleImageView.backgroundColor = .clear
-                cell.articleImageView.image = image
-            }
-        }
-        cell.titleLabel.text = article.articleTitle
+        let articleReusableViewModel = ArticleReusableViewModel(article: article)
+        apply(viewModel: articleReusableViewModel, to: cell)
         
         return cell
     }
