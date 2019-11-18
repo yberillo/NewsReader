@@ -32,7 +32,7 @@ final class ArticleViewController: UIViewController {
     
     // MARK: - Internal Properties
     
-    var article: Article?
+    var viewModel: ArticleViewModel?
     
     // MARK: - Lifecycle
     
@@ -45,17 +45,28 @@ final class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let article = self.article else {
-            return
+        if let viewModel = self.viewModel {
+            apply(viewModel: viewModel)
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        dateLabel.text = dateFormatter.string(from: article.articleDate ?? Date())
+        linkLabel.isUserInteractionEnabled = true
+        linkLabel.addGestureRecognizer(gestureRecognizer)
+        
+        gestureRecognizer.addTarget(self, action: #selector(self.gestureRecognizerTap))
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.contentSize.height = linkLabel.frame.maxY + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
+    }
+    
+    // MARK: - Private API
+    
+    private func apply(viewModel: ArticleViewModel) {
+        dateLabel.text = viewModel.dateLabelText
         var image: UIImage?
-        imageView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        imageView.backgroundColor = viewModel.imageViewBackgroundColor
         
         DispatchQueue.global().async { [weak self] in
-            guard let imageUrlString = article.imageUrlString,
+            guard let imageUrlString = viewModel.imageViewImageUrlString,
                 let imageUrl = URL(string: imageUrlString),
                 let imageData = try? Data(contentsOf: imageUrl) else {
                     
@@ -67,18 +78,9 @@ final class ArticleViewController: UIViewController {
                 self?.imageView.backgroundColor = .clear
             }
         }
-        linkLabel.text = article.urlString
-        linkLabel.isUserInteractionEnabled = true
-        textLabel.text = article.articleDescription
-        titleLabel.text = article.articleTitle
-        
-        linkLabel.addGestureRecognizer(gestureRecognizer)
-        
-        gestureRecognizer.addTarget(self, action: #selector(self.gestureRecognizerTap))
-    }
-    
-    override func viewDidLayoutSubviews() {
-        scrollView.contentSize.height = linkLabel.frame.maxY + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
+        linkLabel.text = viewModel.linkLabelText
+        textLabel.text = viewModel.textLabelText
+        titleLabel.text = viewModel.titleLabelText
     }
     
     // MARK: - Actions
@@ -88,8 +90,7 @@ final class ArticleViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         guard let articleWebViewController = storyboard.instantiateViewController(identifier: "ArticleWebViewController") as? ArticleWebViewController,
-            let article = self.article,
-            let articleUrlString = article.urlString,
+            let articleUrlString = viewModel?.linkLabelText,
             let articleUrl = URL(string: articleUrlString) else {
             return
         }

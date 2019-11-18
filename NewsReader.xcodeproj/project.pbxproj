@@ -37,6 +37,7 @@
 		D1E0201F2382D468009365D9 /* ArticleReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1E0201E2382D468009365D9 /* ArticleReusableView.xib */; };
 		D1E020212382D53E009365D9 /* ArticleReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020202382D53E009365D9 /* ArticleReusableView.swift */; };
 		D1E020232382DA1B009365D9 /* ChannelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020222382DA1B009365D9 /* ChannelReusableView.swift */; };
+		D1E020252382E433009365D9 /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020242382E433009365D9 /* ArticleViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		D1E0201E2382D468009365D9 /* ArticleReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleReusableView.xib; sourceTree = "<group>"; };
 		D1E020202382D53E009365D9 /* ArticleReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleReusableView.swift; sourceTree = "<group>"; };
 		D1E020222382DA1B009365D9 /* ChannelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelReusableView.swift; sourceTree = "<group>"; };
+		D1E020242382E433009365D9 /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */,
+				D1E020242382E433009365D9 /* ArticleViewModel.swift */,
 				D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */,
 				D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */,
 				D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */,
@@ -304,6 +307,7 @@
 				D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */,
 				D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */,
 				D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */,
+				D1E020252382E433009365D9 /* ArticleViewModel.swift in Sources */,
 				D1E020212382D53E009365D9 /* ArticleReusableView.swift in Sources */,
 				D1784407237AC9650050C56E /* LoginViewController.swift in Sources */,
 				D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */,

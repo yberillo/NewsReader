@@ -91,11 +91,11 @@ final class ArticlesViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let articleViewController = segue.destination as? ArticleViewController,
-        let selectedIndexPath = tableView.indexPathForSelectedRow else {
+        let selectedIndexPath = tableView.indexPathForSelectedRow,
+            let article = articlesDataController.article(at: selectedIndexPath.item) else {
             return
         }
-        
-        articleViewController.article = articlesDataController.article(at: selectedIndexPath.item)
+        articleViewController.viewModel = ArticleViewModel(article: article)
     }
 
     // MARK: - Table view data source
@@ -120,5 +120,18 @@ final class ArticlesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
+    }
+    
+    // MARK: - UITableViewDelegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ArticleViewController") as? ArticleViewController,
+            let selectedIndexPath = tableView.indexPathForSelectedRow,
+            let article = articlesDataController.article(at: selectedIndexPath.item) else {
+            return
+        }
+        articleViewController.viewModel = ArticleViewModel(article: article)
+        
+        navigationController?.pushViewController(articleViewController, animated: true)
     }
 }
