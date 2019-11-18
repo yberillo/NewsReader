@@ -52,6 +52,7 @@ final class ArticleViewController: UIViewController {
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         dateLabel.text = dateFormatter.string(from: article.articleDate ?? Date())
         var image: UIImage?
+        imageView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
         
         DispatchQueue.global().async { [weak self] in
             guard let imageUrlString = article.imageUrlString,
@@ -63,6 +64,7 @@ final class ArticleViewController: UIViewController {
             image = UIImage(data: imageData)
             DispatchQueue.main.async {
                 self?.imageView.image = image
+                self?.imageView.backgroundColor = .clear
             }
         }
         linkLabel.text = article.urlString
