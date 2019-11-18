@@ -34,6 +34,7 @@
 		D1ABA552237DA9CA00D5108D /* ChannelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA551237DA9CA00D5108D /* ChannelReusableView.swift */; };
 		D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C84AC1237BE457007186A8 /* RootViewController.swift */; };
 		D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */; };
+		D1E0201B2382D1E1009365D9 /* ChannelReusableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		D1ABA551237DA9CA00D5108D /* ChannelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelReusableView.swift; sourceTree = "<group>"; };
 		D1C84AC1237BE457007186A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleReusableViewModel.swift; sourceTree = "<group>"; };
+		D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelReusableViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 			children = (
 				D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */,
 				D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */,
+				D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */,
 				D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */,
 				D1784424237ADFC80050C56E /* LoginViewModel.swift */,
 			);
@@ -307,6 +310,7 @@
 				D178440D237AC9650050C56E /* NewsReader.xcdatamodeld in Sources */,
 				D1ABA552237DA9CA00D5108D /* ChannelReusableView.swift in Sources */,
 				D15418AF237C167200D87484 /* ArticlesViewController.swift in Sources */,
+				D1E0201B2382D1E1009365D9 /* ChannelReusableViewModel.swift in Sources */,
 				D1ABA54E237D8F3100D5108D /* ArticleViewController.swift in Sources */,
 				D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */,
 				D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */,

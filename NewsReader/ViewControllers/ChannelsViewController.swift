@@ -80,6 +80,11 @@ final class ChannelsViewController: UITableViewController {
     
     // MARK: - Private API
     
+    private func apply(viewModel: ChannelReusableViewModel, to cell: ChannelReusableView) {
+        cell.channelSwitch.isOn = viewModel.channelSwitchIsOn
+        cell.channelTitleLabel.text = viewModel.channelTitleLabelText
+    }
+    
     private func getSelectedChannels() -> [Channel] {
         var selectedChannels: [Channel] = []
         for cell in tableView.visibleCells {
@@ -134,9 +139,8 @@ final class ChannelsViewController: UITableViewController {
             let channel = channelsDataController.channel(at: indexPath.item) else {
                 return UITableViewCell()
         }
-        
-        cell.channelTitleLabel.text = channel.title
-        cell.channelSwitch.isOn = selectedChannels?.contains(channel) ?? false
+        let channelReusableViewModel = ChannelReusableViewModel(channel: channel, selectedChannels: selectedChannels)
+        apply(viewModel: channelReusableViewModel, to: cell)
 
         return cell
     }
