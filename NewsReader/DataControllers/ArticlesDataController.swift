@@ -15,6 +15,16 @@ final class ArticlesDataController {
     
     private var articles: [Article]
     
+    private lazy var articlesFetchedResultsController: NSFetchedResultsController<Article> = {
+        let articlesFetchRequest = NSFetchRequest<Article>(entityName: self.entityName)
+        let sortDescriptor = NSSortDescriptor(key: Keys.articleDate, ascending: false)
+        articlesFetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let fetchedResultsController = NSFetchedResultsController<Article>(fetchRequest: articlesFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        return fetchedResultsController
+    }()
+    
     private var channelsLoadedCount: Int
         
     private var context: NSManagedObjectContext {
@@ -60,7 +70,7 @@ final class ArticlesDataController {
             guard let articlesToDelete = try context.fetch(articlesFetchRequest) as? [Article] else {
                 return
             }
-            
+
             for article in articlesToDelete {
                 context.delete(article)
             }
@@ -78,8 +88,6 @@ final class ArticlesDataController {
             return
         }
         self.articles = []
-        let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-                    
         var predicates: [NSPredicate] = []
         
         for channel in selectedChannels {
@@ -87,10 +95,11 @@ final class ArticlesDataController {
             predicates.append(predicate)
         }
         
-        articlesFetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        articlesFetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
                     
         do {
-            guard let articles = try self.context.fetch(articlesFetchRequest) as? [Article] else {
+            try articlesFetchedResultsController.performFetch()
+            guard let articles = articlesFetchedResultsController.fetchedObjects else {
                 return
             }
             for article in articles {
@@ -102,7 +111,7 @@ final class ArticlesDataController {
         }
     }
     
-    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias]) {
+    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias], completion: (() -> ())) {
         if articles.isEmpty {
             return
         }
@@ -117,13 +126,13 @@ final class ArticlesDataController {
             newArticle.setValue(article.imageUrlString, forKey: keys.imageUrlString)
             newArticle.setValue(article.thumbnailUrlString, forKey: keys.thumbnailUrlString)
             newArticle.setValue(article.urlString, forKey: keys.urlString)
-
-            do {
-                try context.save()
-            }
-            catch let error as NSError {
-                ErrorManager.handle(error: error)
-            }
+        }
+        do {
+            try context.save()
+            completion()
+        }
+        catch let error as NSError {
+            ErrorManager.handle(error: error)
         }
     }
         
@@ -150,9 +159,10 @@ final class ArticlesDataController {
                     self?.channelsLoadedCount += 1
                 }
                 self?.deleteAllArticlesIfNeeded {
-                    self?.importArticles(from: articles)
-                    self?.fetchArticles()
-                    completion()
+                    self?.importArticles(from: articles, completion: {
+                        self?.fetchArticles()
+                        completion()
+                    })
                 }
             }
         }

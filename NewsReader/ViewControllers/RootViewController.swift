@@ -51,7 +51,8 @@ final class RootViewController: UIViewController, LoginViewControllerDelegate, C
     // MARK: - Private API
     
     private func reloadCurrentViewController() {
-        if let _ = usersDataController.restoreUser() {
+        usersDataController.restoreUser()
+        if usersDataController.currentUser != nil {
             let channelsNavigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ChannelsNavigationController") as? UINavigationController
             let channelsViewController = channelsNavigationController?.viewControllers.first as? ChannelsViewController
             channelsViewController?.usersDataController = usersDataController

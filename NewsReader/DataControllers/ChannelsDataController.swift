@@ -24,6 +24,15 @@ final class ChannelsDataController {
     
     private let entityName = "Channel"
     
+    private lazy var channelsFetchedResultsController: NSFetchedResultsController<Channel> = {
+        let channelsFetchRequest = NSFetchRequest<Channel>(entityName: self.entityName)
+        channelsFetchRequest.sortDescriptors = []
+        
+        let fetchedResultsController = NSFetchedResultsController<Channel>(fetchRequest: channelsFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        return fetchedResultsController
+    }()
+    
     // MARK: - Internal Properties
     
     var channelsCount: Int {
@@ -74,13 +83,12 @@ final class ChannelsDataController {
     // MARK: - Private API
     
     private func fetchChannels() {
-        let channelFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-                    
         do {
-            guard let channelResult = try self.context.fetch(channelFetchRequest) as? [Channel] else {
+            try channelsFetchedResultsController.performFetch()
+            guard let channelsResult = channelsFetchedResultsController.fetchedObjects else {
                 return
             }
-            for channel in channelResult {
+            for channel in channelsResult {
                 self.channels.append(channel)
             }
         }

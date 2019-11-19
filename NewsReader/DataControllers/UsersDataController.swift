@@ -22,6 +22,15 @@ final class UsersDataController {
     }
         
     private let entityName = "User"
+    
+    private lazy var usersFetchedResultsController: NSFetchedResultsController<User> = {
+        let usersFetchRequest = NSFetchRequest<User>(entityName: self.entityName)
+        usersFetchRequest.sortDescriptors = []
+        
+        let fetchedResultsController = NSFetchedResultsController<User>(fetchRequest: usersFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        return fetchedResultsController
+    }()
         
     // MARK: Internal Properties
     
@@ -29,8 +38,7 @@ final class UsersDataController {
     
     // MARK: - Internal API
     
-    func authenticateUser(with username: String, password: String) -> User? {
-        let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
+    func authenticateUser(with username: String, password: String) {
         var predicates: [NSPredicate] = []
         let usernamePredicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
         predicates.append(usernamePredicate)
@@ -39,35 +47,39 @@ final class UsersDataController {
         let passwordPredicate = NSPredicate(format: "\(UsersDataController.Keys.password) = %@", passwordHash)
         predicates.append(passwordPredicate)
         
-        userFetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        usersFetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
                     
         do {
-            let userResult = try self.context.fetch(userFetchRequest)
+            try usersFetchedResultsController.performFetch()
+            guard let usersResult = usersFetchedResultsController.fetchedObjects else {
+                return
+            }
             
-            if userResult.isEmpty {
-                return nil
+            if usersResult.isEmpty {
+                return
             }
             else {
-                currentUser = userResult.first as? User
+                currentUser = usersResult.first
                 currentUser?.isSignedIn = true
                 try context.save()
-                return currentUser
             }
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
-            return nil
+            return
         }
     }
     
     func registerUser(with username: String, password: String) -> Bool {
-        let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
         let predicate = NSPredicate(format: "\(UsersDataController.Keys.username) = %@", username)
         
-        userFetchRequest.predicate = predicate
+        usersFetchedResultsController.fetchRequest.predicate = predicate
                     
         do {
-            let userResult = try self.context.fetch(userFetchRequest)
+            try usersFetchedResultsController.performFetch()
+            guard let userResult = usersFetchedResultsController.fetchedObjects else {
+                return false
+            }
             
             if userResult.isEmpty {
                 let user = User(context: context)
@@ -96,24 +108,26 @@ final class UsersDataController {
         }
     }
     
-    func restoreUser() -> User? {
-        let userFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-        userFetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
+    func restoreUser() {
+        usersFetchedResultsController.fetchRequest.predicate = NSPredicate(format: "\(UsersDataController.Keys.isSignedIn) = %@", "1")
                     
         do {
-            let userResult = try self.context.fetch(userFetchRequest)
+            try usersFetchedResultsController.performFetch()
+            guard let userResult = usersFetchedResultsController.fetchedObjects else {
+                return
+            }
             
             if userResult.isEmpty {
-                return nil
+                return
             }
             else {
-                currentUser = userResult.first as? User
-                return currentUser
+                currentUser = userResult.first
+                return
             }
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
-            return nil
+            return
         }
     }
     
