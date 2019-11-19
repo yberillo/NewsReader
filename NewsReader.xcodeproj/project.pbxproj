@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D1405EB3238411FE00CE3FB1 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1405EB2238411FE00CE3FB1 /* CoreDataManager.swift */; };
 		D15418AF237C167200D87484 /* ArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15418AE237C167200D87484 /* ArticlesViewController.swift */; };
 		D15418B1237C183900D87484 /* ArticlesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15418B0237C183900D87484 /* ArticlesDataController.swift */; };
 		D1784403237AC9650050C56E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784402237AC9650050C56E /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D1405EB2238411FE00CE3FB1 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D15418AE237C167200D87484 /* ArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewController.swift; sourceTree = "<group>"; };
 		D15418B0237C183900D87484 /* ArticlesDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesDataController.swift; sourceTree = "<group>"; };
 		D17843FF237AC9650050C56E /* NewsReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +225,7 @@
 		D1A26BD3237C30260071461D /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				D1405EB2238411FE00CE3FB1 /* CoreDataManager.swift */,
 				D179BB3B237FE3EB00E36952 /* ErrorManager.swift */,
 				D1A26BD4237C303A0071461D /* RSSParser.swift */,
 				D1ABA549237D74E300D5108D /* RSSParserKeys.swift */,
@@ -324,6 +327,7 @@
 				D1E0201B2382D1E1009365D9 /* ChannelReusableViewModel.swift in Sources */,
 				D1ABA54E237D8F3100D5108D /* ArticleViewController.swift in Sources */,
 				D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */,
+				D1405EB3238411FE00CE3FB1 /* CoreDataManager.swift in Sources */,
 				D1E020232382DA1B009365D9 /* ChannelReusableView.swift in Sources */,
 				D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */,
 				D15418B1237C183900D87484 /* ArticlesDataController.swift in Sources */,

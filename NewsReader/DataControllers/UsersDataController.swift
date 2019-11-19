@@ -16,9 +16,7 @@ final class UsersDataController {
     // MARK: - Private Properties
     
     private var context: NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        return appDelegate.persistentContainer.viewContext
+        return CoreDataManager.shared.persistentContainer.viewContext
     }
         
     private let entityName = "User"

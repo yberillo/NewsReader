@@ -17,9 +17,7 @@ final class ChannelsDataController {
     private var channels: [Channel]
     
     private var context: NSManagedObjectContext {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        return appDelegate.persistentContainer.viewContext
+        return CoreDataManager.shared.persistentContainer.viewContext
     }
     
     private let entityName = "Channel"
