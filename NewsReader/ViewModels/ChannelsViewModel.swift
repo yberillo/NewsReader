@@ -21,8 +21,8 @@ struct ChannelsViewModel {
     // MARK: - Lifecycle
     
     init() {
-        navigationItemTitle = NSLocalizedString("channels.label.title", comment: "Channels")
-        nextButtonText = NSLocalizedString("channels.button.next", comment: "Next")
-        signOutButtonText = NSLocalizedString("channels.button.sign_out", comment: "Sign out")
+        navigationItemTitle = StringsManager.channelsViewControllerNavigationItemTitle
+        nextButtonText = StringsManager.channelsViewControllerNextButtonText
+        signOutButtonText = StringsManager.articlesViewControllerSignOutButtonTitle
     }
 }

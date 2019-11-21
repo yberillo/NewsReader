@@ -31,13 +31,13 @@ struct LoginViewModel {
     // MARK: - Lifecycle
     
     init() {
-        alertMessageText = NSLocalizedString("login.label.user_exists", comment: "User with this username already exists")
-        alertOkButtonText = NSLocalizedString("login.button.ok", comment: "OK")
-        alertTitleText = NSLocalizedString("login.label.registration_failed", comment: "Registration failed")
-        invalidLabelText = NSLocalizedString("login.label.invalid", comment: "Username or password is invalid")
-        passwordLabelText = NSLocalizedString("login.label.password", comment: "Username")
-        registerButtonText = NSLocalizedString("login.button.register", comment: "Register")
-        signInButtonText = NSLocalizedString("login.button.sign_in", comment: "Sign in")
-        usernameLabelText = NSLocalizedString("login.label.username", comment: "Username")
+        alertMessageText = StringsManager.loginViewControllerAlertMessageText
+        alertOkButtonText = StringsManager.loginViewControllerAlertOkButtonText
+        alertTitleText = StringsManager.loginViewControllerAlertTitleText
+        invalidLabelText = StringsManager.loginViewControllerInvalidLabelText
+        passwordLabelText = StringsManager.loginViewControllerPasswordLabelText
+        registerButtonText = StringsManager.loginViewControllerRegisterButtonText
+        signInButtonText = StringsManager.loginViewControllerSignInButtonText
+        usernameLabelText = StringsManager.loginViewControllerUsernameLabelText
     }
 }

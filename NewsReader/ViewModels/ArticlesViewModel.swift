@@ -16,6 +16,6 @@ struct ArticlesViewModel {
     // MARK: - Lifecycle
     
     init() {
-        signOutButtonTitle = NSLocalizedString("articles.button.sign_out", comment: "Sign out")
+        signOutButtonTitle = StringsManager.articlesViewControllerSignOutButtonTitle
     }
 }
