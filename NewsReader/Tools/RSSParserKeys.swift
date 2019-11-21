@@ -8,19 +8,19 @@
 
 import Foundation
 
-protocol RSSParserKeys: NSObjectProtocol {
+struct RSSParserKeys {
     
-    static var description: String { get }
+    var description = "description"
     
-    static var enclosure: String { get }
+    var enclosure = "enclosure"
     
-    static var item: String { get }
+    var item = "item"
     
-    static var link: String { get }
+    var link = "link"
     
-    static var pubDate: String { get }
+    var pubDate = "pubDate"
     
-    static var title: String { get }
+    var title = "title"
     
-    static var url: String { get }
+    var url = "url"
 }

@@ -22,7 +22,7 @@ final class RSSParser: NSObject, XMLParserDelegate {
         
     private var parser: XMLParser
     
-    private let rssParseKeys: RSSParserKeys.Type
+    private let rssParseKeys: RSSParserKeys
     
     // MARK: - Internal Properties
     
@@ -30,14 +30,14 @@ final class RSSParser: NSObject, XMLParserDelegate {
     
     // MARK: - Lifecycle
     
-    init(rssParseKeys: RSSParserKeys.Type) {
+    init(rssParserKeys: RSSParserKeys) {
         currentData = [:]
         currentElement = ""
         foundCharacters = ""
         isHeader = true
         parsedData = []
         parser = XMLParser()
-        self.rssParseKeys = rssParseKeys
+        self.rssParseKeys = rssParserKeys
         
         super.init()
     }
