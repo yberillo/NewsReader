@@ -59,22 +59,9 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         cell.dateLabel.text = viewModel.dateLabelText
         
-        var image: UIImage?
-        cell.articleImageView.image = nil
-        DispatchQueue.global().async {
-            guard let imageUrlString = viewModel.articleImageViewImageUrlString,
-                let imageUrl = URL(string: imageUrlString),
-                let imageData = try? Data(contentsOf: imageUrl) else {
-                    
-                    return
-            }
-              
-            image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                
-                cell.articleImageView.backgroundColor = .clear
-                cell.articleImageView.image = image
-            }
+        if let imageUrlString = viewModel.articleImageViewImageUrlString,
+            let imageUrl = URL(string: imageUrlString) {
+            cell.articleImageView.downloadImageFrom(url: imageUrl)
         }
         cell.titleLabel.text = viewModel.titleLabelText
     }
@@ -141,5 +128,18 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     
     func articlesDidChange() {
         tableView.reloadData()
+    }
+}
+
+extension UIImageView {
+    func downloadImageFrom(url: URL) {
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                if let data = data {
+                    self.image = UIImage(data: data)
+                    self.backgroundColor = .clear
+                }
+            }
+        }).resume()
     }
 }
