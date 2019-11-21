@@ -6,13 +6,14 @@
 //  Copyright © 2019 Yury Beryla. All rights reserved.
 //
 
+import CoreData
 import UIKit
 
-final class ArticlesViewController: UITableViewController {
+final class ArticlesViewController: UITableViewController, ArticlesDataControllerDelegate {
     
     // MARK: - Private Properties
         
-    var articlesDataController: ArticlesDataController
+    var articlesDataController: ArticlesDataController?
     
     var viewModel: ArticlesViewModel {
         
@@ -31,8 +32,8 @@ final class ArticlesViewController: UITableViewController {
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        articlesDataController = ArticlesDataController(selectedChannels: nil)
         viewModel = ArticlesViewModel()
+        
         super.init(coder: coder)
     }
     
@@ -41,8 +42,9 @@ final class ArticlesViewController: UITableViewController {
         
         navigationItem.title = navigationItemTitle
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
-        articlesDataController.refetchArticles(completion: { [weak self] in
-            self?.tableView.reloadData()
+        articlesDataController?.delegate = self
+        articlesDataController?.refetchArticles(completion: { [weak self] in
+//            self?.tableView.reloadData()
         })
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
     }
@@ -91,8 +93,8 @@ final class ArticlesViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let articleViewController = segue.destination as? ArticleViewController,
-        let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let article = articlesDataController.article(at: selectedIndexPath.item) else {
+            let selectedIndexPath = tableView.indexPathForSelectedRow,
+            let article = articlesDataController?.article(at: selectedIndexPath.item) else {
             return
         }
         articleViewController.viewModel = ArticleViewModel(article: article)
@@ -101,12 +103,12 @@ final class ArticlesViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articlesDataController.articlesCount
+        return articlesDataController?.articlesCount ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ArticleReusableViewModel.reusableIdentifier, for: indexPath) as? ArticleReusableView,
-            let article = articlesDataController.article(at: indexPath.item) else {
+            let article = articlesDataController?.article(at: indexPath.item) else {
             
             return UITableViewCell()
         }
@@ -127,11 +129,17 @@ final class ArticlesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ArticleViewController") as? ArticleViewController,
             let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let article = articlesDataController.article(at: selectedIndexPath.item) else {
+            let article = articlesDataController?.article(at: selectedIndexPath.item) else {
             return
         }
         articleViewController.viewModel = ArticleViewModel(article: article)
         
         navigationController?.pushViewController(articleViewController, animated: true)
+    }
+    
+    // MARK: - ArticlesDataControllerDelegate
+    
+    func articlesDidChange() {
+        tableView.reloadData()
     }
 }

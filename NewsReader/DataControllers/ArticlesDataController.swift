@@ -9,11 +9,13 @@
 import CoreData
 import UIKit
 
-final class ArticlesDataController {
+protocol ArticlesDataControllerDelegate: NSObjectProtocol {
+    func articlesDidChange()
+}
+
+final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate {
     
     // MARK: - Private Properties
-    
-    private var articles: [Article]
     
     private lazy var articlesFetchedResultsController: NSFetchedResultsController<Article> = {
         let articlesFetchRequest = NSFetchRequest<Article>(entityName: self.entityName)
@@ -21,7 +23,7 @@ final class ArticlesDataController {
         articlesFetchRequest.sortDescriptors = [sortDescriptor]
         
         let fetchedResultsController = NSFetchedResultsController<Article>(fetchRequest: articlesFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        
+        fetchedResultsController.delegate = self
         return fetchedResultsController
     }()
     
@@ -42,15 +44,18 @@ final class ArticlesDataController {
     // MARK: - Internal Properties
     
     var articlesCount: Int {
-        return articles.count
+        return self.articlesFetchedResultsController.fetchedObjects?.count ?? 0
     }
+    
+    weak var delegate: ArticlesDataControllerDelegate?
     
     // MARK: - Lifecycle
     
     init(selectedChannels: [Channel]?) {
-        self.articles = []
         self.channelsLoadedCount = 0
         self.selectedChannels = selectedChannels
+        
+        super.init()
         
         self.fetchArticles()
     }
@@ -76,40 +81,19 @@ final class ArticlesDataController {
         catch let error as NSError {
             ErrorManager.handle(error: error)
         }
-        articles = []
         completion()
     }
     
     private func fetchArticles() {
-        guard let selectedChannels = self.selectedChannels else {
-            
-            return
-        }
-        self.articles = []
-        var predicates: [NSPredicate] = []
-        
-        for channel in selectedChannels {
-            let predicate = NSPredicate(format: "\(ArticlesDataController.Keys.channel) = %@", channel)
-            predicates.append(predicate)
-        }
-        
-        articlesFetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
-                    
         do {
             try articlesFetchedResultsController.performFetch()
-            guard let articles = articlesFetchedResultsController.fetchedObjects else {
-                return
-            }
-            for article in articles {
-                self.articles.append(article)
-            }
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
         }
     }
     
-    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias], completion: (() -> ())) {
+    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias]) {
         if articles.isEmpty {
             return
         }
@@ -127,7 +111,6 @@ final class ArticlesDataController {
         }
         do {
             try context.save()
-            completion()
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
@@ -137,6 +120,9 @@ final class ArticlesDataController {
     // MARK: - Internal API
     
     func article(at index: Int) -> Article? {
+        guard let articles = articlesFetchedResultsController.fetchedObjects else {
+            return nil
+        }
         if index < articles.count {
             return articles[index]
         }
@@ -157,13 +143,16 @@ final class ArticlesDataController {
                     self?.channelsLoadedCount += 1
                 }
                 self?.deleteAllArticlesIfNeeded {
-                    self?.importArticles(from: articles, completion: {
-                        self?.fetchArticles()
-                        completion()
-                    })
+                    self?.importArticles(from: articles)
                 }
             }
         }
+    }
+    
+    // MARK: - NSFetchedResultsControllerDelegate
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.delegate?.articlesDidChange()
     }
 }
 

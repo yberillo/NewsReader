@@ -102,7 +102,7 @@ final class ChannelsDataController {
         
         let channel2 = Channel(context: context)
         channel2.setValue("Lenta.ru", forKey: "title")
-        channel2.setValue("https://lenta.ru/rss", forKey: "url")
+        channel2.setValue("https://lenta.ru/rss/last24", forKey: "url")
 
         do {
             try context.save()
