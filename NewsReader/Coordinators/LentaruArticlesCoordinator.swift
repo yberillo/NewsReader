@@ -11,7 +11,7 @@ import Foundation
 
 final class LentaruArticlesCoordinator: ArticlesCoordinator {
     
-    override func fetchArticles(coordinator: ArticlesCoordinator, parseDescription: ((String) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
-        super.fetchArticles(coordinator: coordinator, completion: completion)
+    override func fetchArticles(rssParserKeys: RSSParserKeys, parseDescription: ((String) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
+        super.fetchArticles(rssParserKeys: rssParserKeys, completion: completion)
     }
 }

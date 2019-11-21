@@ -138,7 +138,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
         for channel in selectedChannels {
             let articlesCoordinator = ArticlesCoordinator.getCoordinatorFor(channel: channel)
-            articlesCoordinator.fetchArticles(coordinator: articlesCoordinator) { [weak self] (articles)  in
+            articlesCoordinator.fetchArticles(rssParserKeys: articlesCoordinator.rssParserKeys) { [weak self] (articles)  in
                 if !articles.isEmpty {
                     self?.channelsLoadedCount += 1
                 }

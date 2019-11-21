@@ -25,8 +25,8 @@ final class TutbyArticlesCoordinator: ArticlesCoordinator {
     
     // MARK: - Internal API
     
-    override func fetchArticles(coordinator:ArticlesCoordinator, parseDescription: ((String) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
-        super.fetchArticles(coordinator: coordinator, parseDescription: self.parseDescription(descriptionString:), completion: completion)
+    override func fetchArticles(rssParserKeys: RSSParserKeys, parseDescription: ((String) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
+        super.fetchArticles(rssParserKeys: rssParserKeys, parseDescription: self.parseDescription(descriptionString:), completion: completion)
     }
     
     // MARK: - Private API

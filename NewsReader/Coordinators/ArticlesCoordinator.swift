@@ -26,13 +26,12 @@ class ArticlesCoordinator: NSObject {
     
     // MARK: - Internal API
     
-    func fetchArticles(coordinator: ArticlesCoordinator, parseDescription: ((String?) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
+    func fetchArticles(rssParserKeys: RSSParserKeys, parseDescription: ((String?) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
         guard let rssUrlString = self.channel.url, let rssUrl = URL(string: rssUrlString) else {
                 
                 return
         }
-        let rssParserKeys = coordinator.rssParserKeys
-        let parser = RSSParser(rssParserKeys: coordinator.rssParserKeys)
+        let parser = RSSParser(rssParserKeys: rssParserKeys)
         DispatchQueue.global().async {
             parser.parseFrom(url: rssUrl) { [weak self] (parsed) in
                 if parsed {
