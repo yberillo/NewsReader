@@ -43,9 +43,7 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         navigationItem.title = navigationItemTitle
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
         articlesDataController?.delegate = self
-        articlesDataController?.refetchArticles(completion: { [weak self] in
-//            self?.tableView.reloadData()
-        })
+        articlesDataController?.refetchArticles()
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
     }
     
@@ -128,18 +126,5 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     
     func articlesDidChange() {
         tableView.reloadData()
-    }
-}
-
-extension UIImageView {
-    func downloadImageFrom(url: URL) {
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
-            DispatchQueue.main.async {
-                if let data = data {
-                    self.image = UIImage(data: data)
-                    self.backgroundColor = .clear
-                }
-            }
-        }).resume()
     }
 }

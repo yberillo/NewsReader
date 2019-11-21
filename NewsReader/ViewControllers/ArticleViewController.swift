@@ -62,21 +62,11 @@ final class ArticleViewController: UIViewController {
     
     private func apply(viewModel: ArticleViewModel) {
         dateLabel.text = viewModel.dateLabelText
-        var image: UIImage?
-        imageView.backgroundColor = viewModel.imageViewBackgroundColor
         
-        DispatchQueue.global().async { [weak self] in
-            guard let imageUrlString = viewModel.imageViewImageUrlString,
-                let imageUrl = URL(string: imageUrlString),
-                let imageData = try? Data(contentsOf: imageUrl) else {
-                    
-                    return
-            }
-            image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self?.imageView.image = image
-                self?.imageView.backgroundColor = .clear
-            }
+        imageView.backgroundColor = viewModel.imageViewBackgroundColor
+        if let imageUrlString = viewModel.imageViewImageUrlString,
+            let imageUrl = URL(string: imageUrlString) {
+            imageView.downloadImageFrom(url: imageUrl)
         }
         linkLabel.text = viewModel.linkLabelText
         textLabel.text = viewModel.textLabelText
