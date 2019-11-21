@@ -68,8 +68,15 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
             return
         }
         let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-        articlesFetchRequest.returnsObjectsAsFaults = false
+//        articlesFetchRequest.returnsObjectsAsFaults = false
+        let articlesDeleteRequest = NSBatchDeleteRequest(fetchRequest: articlesFetchRequest)
+        articlesDeleteRequest.resultType = .resultTypeObjectIDs
         do {
+//            let result = try context.execute(articlesDeleteRequest) as! NSBatchDeleteResult
+//            let changes: [AnyHashable: Any] = [
+//                NSDeletedObjectsKey: result.result as! [NSManagedObjectID]
+//            ]
+//            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
             guard let articlesToDelete = try context.fetch(articlesFetchRequest) as? [Article] else {
                 return
             }
@@ -93,7 +100,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
-    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias]) {
+    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias], completion: @escaping (() -> ())) {
         if articles.isEmpty {
             return
         }
@@ -111,6 +118,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
         do {
             try context.save()
+            completion()
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
@@ -131,7 +139,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
-    func refetchArticles(completion: @escaping (() -> ())) {
+    func refetchArticles(completion: (() -> ())? = nil) {
         self.channelsLoadedCount = 0
         guard let selectedChannels = self.selectedChannels else {
             return
@@ -143,7 +151,11 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
                     self?.channelsLoadedCount += 1
                 }
                 self?.deleteAllArticlesIfNeeded {
-                    self?.importArticles(from: articles)
+                    self?.importArticles(from: articles, completion: {
+                        if let completion = completion {
+                            completion()
+                        }
+                    })
                 }
             }
         }

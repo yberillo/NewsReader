@@ -15,6 +15,10 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         
     var articlesDataController: ArticlesDataController?
     
+    let refetchingTimeout = 5.0
+    
+    var refetchTimer = Timer()
+        
     var viewModel: ArticlesViewModel {
         
         didSet {
@@ -44,6 +48,10 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
         articlesDataController?.delegate = self
         articlesDataController?.refetchArticles()
+                
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
     }
     
@@ -72,6 +80,23 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     private func reloadViewModel() {
         
         viewModel = ArticlesViewModel()
+    }
+    
+    // MARK: - Actions
+    
+    @objc
+    func refreshTableView(_ refreshControl: UIRefreshControl) {
+        refetchTimer = Timer.scheduledTimer(timeInterval: refetchingTimeout, target: self, selector: #selector(timerFired), userInfo: nil, repeats: false)
+        articlesDataController?.refetchArticles(completion: { [weak self] in
+            refreshControl.endRefreshing()
+            self?.refetchTimer.invalidate()
+        })
+    }
+    
+    @objc
+    func timerFired() {
+        refetchTimer.invalidate()
+        tableView.refreshControl?.endRefreshing()
     }
     
     // MARK: - Segues
