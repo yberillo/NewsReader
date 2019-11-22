@@ -41,10 +41,7 @@ class ArticlesCoordinator: NSObject {
                             return
                         }
                         let article = ArticleAlias()
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-                        let date = dateFormatter.date(from: element[rssParserKeys.pubDate] ?? "")
-                        article.articleDate = date
+                        article.articleDate = rssParserKeys.pubDate.dateFromRssDateString
                         if let parseDescription = parseDescription {
                             let (thumbnailUrlString, descriptionTextString) = parseDescription(element[rssParserKeys.description])
                             

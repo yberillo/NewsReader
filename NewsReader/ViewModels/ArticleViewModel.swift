@@ -26,9 +26,7 @@ final class ArticleViewModel {
     // MARK: - Lifecycle
     
     init(article: Article) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        dateLabelText = dateFormatter.string(from: article.articleDate ?? Date())
+        dateLabelText = article.articleDate?.standardDateString
         
         imageViewBackgroundColor = UIColor.gray.withAlphaComponent(0.3)
         imageViewImageUrlString = article.imageUrlString

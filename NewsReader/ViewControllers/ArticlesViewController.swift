@@ -61,8 +61,6 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         cell.articleImageView.backgroundColor = viewModel.articleImageViewBackgroundColor
         cell.channelLabel.text = viewModel.channelLabelText
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         cell.dateLabel.text = viewModel.dateLabelText
         
         if let imageUrlString = viewModel.articleImageViewImageUrlString,

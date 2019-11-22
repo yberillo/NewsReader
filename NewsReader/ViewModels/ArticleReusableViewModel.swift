@@ -18,7 +18,7 @@ final class ArticleReusableViewModel {
     
     let channelLabelText: String?
     
-    let dateLabelText: String
+    let dateLabelText: String?
     
     let titleLabelText: String?
     
@@ -34,9 +34,7 @@ final class ArticleReusableViewModel {
 
         channelLabelText = article.channel?.title
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
-        dateLabelText = dateFormatter.string(from: article.articleDate ?? Date())
+        dateLabelText = article.articleDate?.standardDateString
         
         titleLabelText = article.articleTitle
     }
