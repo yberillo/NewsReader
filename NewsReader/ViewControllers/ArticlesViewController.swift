@@ -12,13 +12,17 @@ import UIKit
 final class ArticlesViewController: UITableViewController, ArticlesDataControllerDelegate {
     
     // MARK: - Private Properties
-        
+            
     var articlesDataController: ArticlesDataController?
+    
+    var maxDisplayedCellIndexPath: IndexPath
     
     let refetchingTimeout = 5.0
     
     var refetchTimer = Timer()
-        
+    
+    var tableViewShouldAnimateCells: Bool
+            
     var viewModel: ArticlesViewModel {
         
         didSet {
@@ -36,6 +40,8 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
+        maxDisplayedCellIndexPath = IndexPath(item: -1, section: 0)
+        tableViewShouldAnimateCells = false
         viewModel = ArticlesViewModel()
         
         super.init(coder: coder)
@@ -56,6 +62,15 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     }
     
     // MARK: - Private API
+    
+    fileprivate static func animate(cell: UITableViewCell, delay: Double? = nil) {
+        let originalCellOriginX = cell.frame.origin.x
+        cell.frame.origin.x = cell.bounds.width
+        let delay = delay ?? 0.0
+        UIView.animate(withDuration: 0.5, delay: delay, options: [], animations: {
+            cell.frame.origin.x = originalCellOriginX
+        })
+    }
     
     private func apply(viewModel: ArticleReusableViewModel, to cell: ArticleReusableView) {
         cell.articleImageView.backgroundColor = viewModel.articleImageViewBackgroundColor
@@ -145,9 +160,40 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         navigationController?.pushViewController(articleViewController, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.item > maxDisplayedCellIndexPath.item {
+            maxDisplayedCellIndexPath = indexPath
+            if tableViewShouldAnimateCells {
+                ArticlesViewController.animate(cell: cell)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.item < maxDisplayedCellIndexPath.item {
+            maxDisplayedCellIndexPath = indexPath
+        }
+    }
+    
     // MARK: - ArticlesDataControllerDelegate
     
     func articlesDidChange() {
-        tableView.reloadData()
+        tableViewShouldAnimateCells = true
+        tableView.reloadDataWithAnimation()
+    }
+}
+
+private extension UITableView {
+    
+    func reloadDataWithAnimation() {
+        self.reloadData()
+        
+        var delay = 0
+        let cells = self.visibleCells
+        for cell in cells {
+            ArticlesViewController.animate(cell: cell, delay: 0.1 * Double(delay))
+
+            delay += 1
+        }
     }
 }
