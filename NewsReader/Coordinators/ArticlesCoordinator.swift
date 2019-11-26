@@ -11,6 +11,18 @@ import Foundation
 
 class ArticlesCoordinator: NSObject {
     
+    // MARK: - Strings
+    
+    private let brOpeningString = "<br"
+    
+    private let entityName = "Article"
+    
+    private let imageUrlStringClosingString = "\""
+    
+    private let imgClosingString = "/>"
+    
+    private let imgOpeningString = "<img src=\""
+    
     // MARK: - Internal Properties
     
     let channel: Channel
@@ -26,9 +38,8 @@ class ArticlesCoordinator: NSObject {
     
     // MARK: - Internal API
     
-    func fetchArticles(rssParserKeys: RSSParserKeys, parseDescription: ((String?) -> (String, String))? = nil, completion: @escaping([ArticleAlias]) -> ()) {
+    func fetchArticles(rssParserKeys: RSSParserKeys, completion: @escaping([ArticleAlias]) -> ()) {
         guard let rssUrlString = self.channel.url, let rssUrl = URL(string: rssUrlString) else {
-                
                 return
         }
         let parser = RSSParser(rssParserKeys: rssParserKeys)
@@ -41,16 +52,24 @@ class ArticlesCoordinator: NSObject {
                             return
                         }
                         let article = ArticleAlias()
-                        article.articleDate = rssParserKeys.pubDate.dateFromRssDateString
-                        if let parseDescription = parseDescription {
-                            let (thumbnailUrlString, descriptionTextString) = parseDescription(element[rssParserKeys.description])
+                        if let articleDateString = element[rssParserKeys.pubDate] {
+                            article.articleDate = articleDateString.dateFromRssDateString
+                        }
+                        
+                        switch self?.channel.title {
+                            
+                        case ChannelsDataController.Channels.lentaru.rawValue:
+                            article.articleDescription = element[rssParserKeys.description]
+                            article.thumbnailUrlString = element[rssParserKeys.enclosure]
+                            
+                        case ChannelsDataController.Channels.tutby.rawValue:
+                            let (thumbnailUrlString, descriptionTextString) = self?.parseDescription(descriptionString: element[rssParserKeys.description]) ?? (element[rssParserKeys.enclosure], element[rssParserKeys.description])
                             
                             article.articleDescription = descriptionTextString
                             article.thumbnailUrlString = thumbnailUrlString
-                        }
-                        else {
-                            article.articleDescription = element[rssParserKeys.description]
-                            article.thumbnailUrlString = element[rssParserKeys.enclosure]
+                            
+                        default:
+                            assertionFailure("Unknown channel")
                         }
                         article.articleTitle = element[rssParserKeys.title]
                         article.imageUrlString = element[rssParserKeys.enclosure]
@@ -67,20 +86,37 @@ class ArticlesCoordinator: NSObject {
         }
     }
     
-    // MARK: - Internal Static API
+    // MARK: - Private API
     
-    static func getCoordinatorFor(channel: Channel) -> ArticlesCoordinator {
-        switch channel.title {
-
-        case ChannelsDataController.Channels.lentaru.rawValue:
-            return LentaruArticlesCoordinator(channel: channel)
-
-        case ChannelsDataController.Channels.tutby.rawValue:
-            return TutbyArticlesCoordinator(channel: channel)
-
-        default:
-            return ArticlesCoordinator(channel: channel)
+    private func parseDescription(descriptionString: String?) -> (imageUrlString: String, descriptionTextString: String) {
+        
+        guard let descriptionString = descriptionString else {
+            return ("", "")
         }
+        var tempString = descriptionString
+        
+        if let imgOpeningRange = tempString.range(of: imgOpeningString) {
+            tempString = String(tempString.suffix(from: imgOpeningRange.upperBound))
+        }
+        let imageUrlString: String
+        if let imageUrlStringClosingRange = tempString.range(of: imageUrlStringClosingString) {
+            imageUrlString = String(tempString.prefix(upTo: imageUrlStringClosingRange.lowerBound))
+        }
+        else {
+            imageUrlString = ""
+        }
+        if let imgClosingRange = tempString.range(of: imgClosingString) {
+            tempString = String(tempString.suffix(from: imgClosingRange.upperBound))
+        }
+        let descriptionTextString: String
+        if let brOpeningRange = tempString.range(of: brOpeningString) {
+            descriptionTextString = String(tempString.prefix(upTo: brOpeningRange.lowerBound))
+        }
+        else {
+            descriptionTextString = ""
+        }
+        
+        return (imageUrlString, descriptionTextString)
     }
 }
 

@@ -26,8 +26,6 @@
 		D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784433237B01A10050C56E /* ChannelsDataController.swift */; };
 		D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D179BB3B237FE3EB00E36952 /* ErrorManager.swift */; };
 		D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */; };
-		D1A26BD0237C28410071461D /* LentaruArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCF237C28410071461D /* LentaruArticlesCoordinator.swift */; };
-		D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD1237C2A820071461D /* TutbyArticlesCoordinator.swift */; };
 		D1A26BD5237C303A0071461D /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD4237C303A0071461D /* RSSParser.swift */; };
 		D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA549237D74E300D5108D /* RSSParserKeys.swift */; };
 		D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */; };
@@ -67,8 +65,6 @@
 		D1784433237B01A10050C56E /* ChannelsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataController.swift; sourceTree = "<group>"; };
 		D179BB3B237FE3EB00E36952 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCoordinator.swift; sourceTree = "<group>"; };
-		D1A26BCF237C28410071461D /* LentaruArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaruArticlesCoordinator.swift; sourceTree = "<group>"; };
-		D1A26BD1237C2A820071461D /* TutbyArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutbyArticlesCoordinator.swift; sourceTree = "<group>"; };
 		D1A26BD4237C303A0071461D /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		D1ABA549237D74E300D5108D /* RSSParserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParserKeys.swift; sourceTree = "<group>"; };
 		D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
@@ -235,8 +231,6 @@
 			isa = PBXGroup;
 			children = (
 				D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */,
-				D1A26BCF237C28410071461D /* LentaruArticlesCoordinator.swift */,
-				D1A26BD1237C2A820071461D /* TutbyArticlesCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -336,7 +330,6 @@
 				D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */,
 				D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
-				D1A26BD0237C28410071461D /* LentaruArticlesCoordinator.swift in Sources */,
 				D1B8BEAF2387D4EF0046D37C /* String+Date.swift in Sources */,
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
 				D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */,
@@ -351,7 +344,6 @@
 				D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */,
 				D1405EB3238411FE00CE3FB1 /* CoreDataManager.swift in Sources */,
 				D1E020232382DA1B009365D9 /* ChannelReusableView.swift in Sources */,
-				D1A26BD2237C2A820071461D /* TutbyArticlesCoordinator.swift in Sources */,
 				D15418B1237C183900D87484 /* ArticlesDataController.swift in Sources */,
 				D1ABA550237D9B4D00D5108D /* ArticleWebViewController.swift in Sources */,
 				D16827222386DDD60038D9E3 /* UIImageView+Downloading.swift in Sources */,
