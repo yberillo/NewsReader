@@ -27,6 +27,7 @@
 		D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D179BB3B237FE3EB00E36952 /* ErrorManager.swift */; };
 		D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */; };
 		D1A26BD5237C303A0071461D /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD4237C303A0071461D /* RSSParser.swift */; };
+		D1A7D6BA238E8A210027FF85 /* Channel+ChannelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */; };
 		D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA549237D74E300D5108D /* RSSParserKeys.swift */; };
 		D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */; };
 		D1ABA54E237D8F3100D5108D /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54D237D8F3100D5108D /* ArticleViewController.swift */; };
@@ -66,6 +67,7 @@
 		D179BB3B237FE3EB00E36952 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCoordinator.swift; sourceTree = "<group>"; };
 		D1A26BD4237C303A0071461D /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
+		D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+ChannelType.swift"; sourceTree = "<group>"; };
 		D1ABA549237D74E300D5108D /* RSSParserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParserKeys.swift; sourceTree = "<group>"; };
 		D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
 		D1ABA54D237D8F3100D5108D /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				D178440B237AC9650050C56E /* NewsReader.xcdatamodeld */,
+				D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */,
 			);
 			path = Managed;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
 				D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */,
 				D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */,
+				D1A7D6BA238E8A210027FF85 /* Channel+ChannelType.swift in Sources */,
 				D1784425237ADFC80050C56E /* LoginViewModel.swift in Sources */,
 				D168271F238686870038D9E3 /* StringsManager.swift in Sources */,
 				D1784422237ACFDD0050C56E /* UsersDataController.swift in Sources */,

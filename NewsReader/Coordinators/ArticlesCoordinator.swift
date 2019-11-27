@@ -48,7 +48,7 @@ class ArticlesCoordinator: NSObject {
                 if parsed {
                     var articles: [ArticleAlias] = []
                     for element in parser.parsedData {
-                        guard let strongSelf = self else {
+                        guard let strongSelf = self, let channelType = strongSelf.channel.type else {
                             return
                         }
                         let article = ArticleAlias()
@@ -56,19 +56,19 @@ class ArticlesCoordinator: NSObject {
                             article.articleDate = articleDateString.dateFromRssDateString
                         }
                         
-                        switch self?.channel.title {
+                        switch channelType {
                             
-                        case ChannelsDataController.Channels.lentaru.rawValue:
+                        case .lentaru:
                             article.articleDescription = element[rssParserKeys.description]
                             article.thumbnailUrlString = element[rssParserKeys.enclosure]
                             
-                        case ChannelsDataController.Channels.tutby.rawValue:
+                        case .tutby:
                             let (thumbnailUrlString, descriptionTextString) = self?.parseDescription(descriptionString: element[rssParserKeys.description]) ?? (element[rssParserKeys.enclosure], element[rssParserKeys.description])
                             
                             article.articleDescription = descriptionTextString
                             article.thumbnailUrlString = thumbnailUrlString
                             
-                        default:
+                        @unknown default:
                             assertionFailure("Unknown channel")
                         }
                         article.articleTitle = element[rssParserKeys.title]
