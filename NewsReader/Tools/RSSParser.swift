@@ -66,7 +66,9 @@ final class RSSParser: NSObject, XMLParserDelegate {
         }
         if isHeader == false {
             if currentElement == rssParseKeys.enclosure {
-                foundCharacters += attributeDict[rssParseKeys.url]!
+                if let urlString = attributeDict[rssParseKeys.url] {
+                    foundCharacters += urlString
+                }
             }
         }
     }

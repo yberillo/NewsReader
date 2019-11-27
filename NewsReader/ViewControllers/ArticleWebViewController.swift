@@ -13,7 +13,7 @@ class ArticleWebViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var webView: WKWebView?
     
     // MARK: - Internal Properties
     
@@ -25,6 +25,6 @@ class ArticleWebViewController: UIViewController {
         guard let articleUrl = self.articleUrl else {
             return
         }
-        webView.load(URLRequest(url: articleUrl))
+        webView?.load(URLRequest(url: articleUrl))
     }
 }

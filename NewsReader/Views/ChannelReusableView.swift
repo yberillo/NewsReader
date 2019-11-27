@@ -12,7 +12,7 @@ final class ChannelReusableView: UITableViewCell {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var channelTitleLabel: UILabel!
+    @IBOutlet weak var channelTitleLabel: UILabel?
     
-    @IBOutlet weak var channelSwitch: UISwitch!
+    @IBOutlet weak var channelSwitch: UISwitch?
 }

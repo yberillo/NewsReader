@@ -11,6 +11,10 @@ import UIKit
 
 final class ArticlesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var filterTabBarButtonItem: UIBarButtonItem?
+    
     // MARK: - Private Properties
             
     var articlesDataController: ArticlesDataController?
@@ -78,16 +82,16 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     }
     
     private func apply(viewModel: ArticleReusableViewModel, to cell: ArticleReusableView) {
-        cell.articleImageView.backgroundColor = viewModel.articleImageViewBackgroundColor
-        cell.channelLabel.text = viewModel.channelLabelText
+        cell.articleImageView?.backgroundColor = viewModel.articleImageViewBackgroundColor
+        cell.channelLabel?.text = viewModel.channelLabelText
         
-        cell.dateLabel.text = viewModel.dateLabelText
+        cell.dateLabel?.text = viewModel.dateLabelText
         
         if let imageUrlString = viewModel.articleImageViewImageUrlString,
             let imageUrl = URL(string: imageUrlString) {
-            cell.articleImageView.downloadImageFrom(url: imageUrl)
+            cell.articleImageView?.downloadImageFrom(url: imageUrl)
         }
-        cell.titleLabel.text = viewModel.titleLabelText
+        cell.titleLabel?.text = viewModel.titleLabelText
     }
     
     private func refreshView() {

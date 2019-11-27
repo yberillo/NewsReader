@@ -84,17 +84,17 @@ final class ChannelsViewController: UITableViewController {
     // MARK: - Private API
     
     private func apply(viewModel: ChannelReusableViewModel, to cell: ChannelReusableView) {
-        cell.channelSwitch.isOn = viewModel.channelSwitchIsOn
-        cell.channelTitleLabel.text = viewModel.channelTitleLabelText
+        cell.channelSwitch?.isOn = viewModel.channelSwitchIsOn
+        cell.channelTitleLabel?.text = viewModel.channelTitleLabelText
     }
     
     private func getSelectedChannels() -> [Channel] {
         var selectedChannels: [Channel] = []
         for cell in tableView.visibleCells {
-            guard let channelCell = cell as? ChannelReusableView else {
+            guard let channelCell = cell as? ChannelReusableView, let channelSwitch = channelCell.channelSwitch else {
                 return []
             }
-            if channelCell.channelSwitch.isOn {
+            if channelSwitch.isOn {
                 guard let indexPath = tableView.indexPath(for: channelCell),
                 let channel = channelsDataController.channel(at: indexPath.item) else {
                     return []

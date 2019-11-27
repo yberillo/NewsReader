@@ -14,17 +14,17 @@ final class ArticleViewController: UIViewController {
     
     @IBOutlet weak var contentViewBottomEqualLinkLabelBottomVerticalSpace: NSLayoutConstraint!
     
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel?
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: UIImageView?
     
-    @IBOutlet weak var linkLabel: UILabel!
+    @IBOutlet weak var linkLabel: UILabel?
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollView: UIScrollView?
     
-    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var textLabel: UILabel?
         
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel?
     
     // MARK: - Private Properties
     
@@ -48,29 +48,29 @@ final class ArticleViewController: UIViewController {
         if let viewModel = self.viewModel {
             apply(viewModel: viewModel)
         }
-        linkLabel.isUserInteractionEnabled = true
-        linkLabel.addGestureRecognizer(gestureRecognizer)
+        linkLabel?.isUserInteractionEnabled = true
+        linkLabel?.addGestureRecognizer(gestureRecognizer)
         
         gestureRecognizer.addTarget(self, action: #selector(self.gestureRecognizerTap))
     }
     
     override func viewDidLayoutSubviews() {
-        scrollView.contentSize.height = linkLabel.frame.maxY + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
+        scrollView?.contentSize.height = linkLabel?.frame.maxY ?? 0.0 + contentViewBottomEqualLinkLabelBottomVerticalSpace.constant
     }
     
     // MARK: - Private API
     
     private func apply(viewModel: ArticleViewModel) {
-        dateLabel.text = viewModel.dateLabelText
+        dateLabel?.text = viewModel.dateLabelText
         
-        imageView.backgroundColor = viewModel.imageViewBackgroundColor
+        imageView?.backgroundColor = viewModel.imageViewBackgroundColor
         if let imageUrlString = viewModel.imageViewImageUrlString,
             let imageUrl = URL(string: imageUrlString) {
-            imageView.downloadImageFrom(url: imageUrl)
+            imageView?.downloadImageFrom(url: imageUrl)
         }
-        linkLabel.text = viewModel.linkLabelText
-        textLabel.text = viewModel.textLabelText
-        titleLabel.text = viewModel.titleLabelText
+        linkLabel?.text = viewModel.linkLabelText
+        textLabel?.text = viewModel.textLabelText
+        titleLabel?.text = viewModel.titleLabelText
     }
     
     // MARK: - Actions

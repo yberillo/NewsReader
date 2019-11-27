@@ -17,21 +17,21 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var invalidLabel: UILabel!
+    @IBOutlet weak var invalidLabel: UILabel?
     
-    @IBOutlet weak var loginView: UIView!
+    @IBOutlet weak var loginView: UIView?
     
-    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var passwordLabel: UILabel?
     
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField?
     
-    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton?
     
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var signInButton: UIButton?
     
-    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel?
     
-    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField?
     
     // MARK: - Private Properties
             
@@ -60,7 +60,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginView.layer.cornerRadius = loginView.frame.size.height / 10.0
+        loginView?.layer.cornerRadius = loginView?.frame.size.height ?? 0.0 / 10.0
                 
         refreshView()
     }
@@ -68,7 +68,7 @@ final class LoginViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func registerButtonTouchUpInside(_ sender: UIButton) {
-        guard let username = usernameTextField.text, let password = passwordTextField.text else {
+        guard let username = usernameTextField?.text, let password = passwordTextField?.text else {
             return
         }
         let isUserRegistered = usersDataController?.registerUser(with: username, password: password)
@@ -88,17 +88,17 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func signInButtonTouchUpInside(_ sender: UIButton) {
-        guard let username = usernameTextField.text, let password = passwordTextField.text else {
+        guard let username = usernameTextField?.text, let password = passwordTextField?.text else {
             
             return
         }
         _ = usersDataController?.authenticateUser(with: username, password: password)
         
         if usersDataController?.currentUser == nil {
-            invalidLabel.isHidden = false
+            invalidLabel?.isHidden = false
         }
         else {
-            invalidLabel.isHidden = true
+            invalidLabel?.isHidden = true
             self.delegate?.signIn()
         }
     }
@@ -106,11 +106,11 @@ final class LoginViewController: UIViewController {
     // MARK: - Private API
     
     private func refreshView() {
-        invalidLabel.text = viewModel.invalidLabelText
-        passwordLabel.text = viewModel.passwordLabelText
-        registerButton.setTitle(viewModel.registerButtonText, for: .normal)
-        signInButton.setTitle(viewModel.signInButtonText, for: .normal)
-        usernameLabel.text = viewModel.usernameLabelText
+        invalidLabel?.text = viewModel.invalidLabelText
+        passwordLabel?.text = viewModel.passwordLabelText
+        registerButton?.setTitle(viewModel.registerButtonText, for: .normal)
+        signInButton?.setTitle(viewModel.signInButtonText, for: .normal)
+        usernameLabel?.text = viewModel.usernameLabelText
     }
     
     private func reloadViewModel() {

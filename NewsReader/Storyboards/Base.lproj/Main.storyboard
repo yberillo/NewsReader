@@ -162,7 +162,12 @@
                             <outlet property="delegate" destination="ksv-cc-kBe" id="Z4E-OY-p5j"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Qzf-DJ-NNk"/>
+                    <navigationItem key="navigationItem" id="Qzf-DJ-NNk">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Hzj-Ba-7bS"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="filterTabBarButtonItem" destination="Hzj-Ba-7bS" id="xjy-Ak-LOa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r8M-rS-l1j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
