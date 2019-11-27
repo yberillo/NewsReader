@@ -44,3 +44,15 @@
 /* ArticlesViewController */
 /* Sign out */
 "articles.button.sign_out" = "Sign out";
+
+/* WARNING */
+"articles.alert.title" = "WARNING";
+
+/* Are you shure you want detete %@? */
+"articles.alert.message" = "Are you shure you want detete \"%@\"?";
+
+/* DELETE */
+"articles.alert.delete" = "DELETE";
+
+/* Cancel */
+"articles.alert.cancel" = "Cancel";

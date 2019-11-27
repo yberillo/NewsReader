@@ -9,29 +9,15 @@
 import CoreData
 import UIKit
 
-protocol ArticlesDataControllerDelegate: NSObjectProtocol {
-    func articlesDidChange()
-}
-
 final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate {
     
     // MARK: - Private Properties
-    
-    private lazy var articlesFetchedResultsController: NSFetchedResultsController<Article> = {
-        let articlesFetchRequest = NSFetchRequest<Article>(entityName: self.entityName)
-        let sortDescriptor = NSSortDescriptor(key: Keys.articleDate, ascending: false)
-        articlesFetchRequest.sortDescriptors = [sortDescriptor]
         
-        let fetchedResultsController = NSFetchedResultsController<Article>(fetchRequest: articlesFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        return fetchedResultsController
-    }()
-    
     private var channelsLoadedCount: Int
         
-    private var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext = {
         return CoreDataManager.shared.persistentContainer.viewContext
-    }
+    }()
     
     private let entityName = "Article"
             
@@ -47,14 +33,20 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         return self.articlesFetchedResultsController.fetchedObjects?.count ?? 0
     }
     
-    weak var delegate: ArticlesDataControllerDelegate?
-    
+    let articlesFetchedResultsController: NSFetchedResultsController<Article>
+        
     // MARK: - Lifecycle
     
     init(selectedChannels: [Channel]?) {
         self.channelsLoadedCount = 0
         self.selectedChannels = selectedChannels
         
+        let articlesFetchRequest = NSFetchRequest<Article>(entityName: self.entityName)
+        let sortDescriptor = NSSortDescriptor(key: Keys.articleDate, ascending: false)
+        articlesFetchRequest.sortDescriptors = [sortDescriptor]
+
+        articlesFetchedResultsController = NSFetchedResultsController<Article>(fetchRequest: articlesFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+
         super.init()
         
         self.fetchArticles()
@@ -84,6 +76,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
             for article in articlesToDelete {
                 context.delete(article)
             }
+            try context.save()
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
@@ -139,6 +132,19 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
+    func deleteArticle(at indexPath: IndexPath) {
+        guard let article = article(at: indexPath.item) else {
+            return
+        }
+        context.delete(article)
+        do {
+            try context.save()
+        }
+        catch let error as NSError {
+            ErrorManager.handle(error: error)
+        }
+    }
+    
     func refetchArticles(completion: (() -> ())? = nil) {
         self.channelsLoadedCount = 0
         guard let selectedChannels = self.selectedChannels else {
@@ -159,12 +165,6 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
                 }
             }
         }
-    }
-    
-    // MARK: - NSFetchedResultsControllerDelegate
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.delegate?.articlesDidChange()
     }
 }
 

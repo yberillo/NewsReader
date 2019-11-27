@@ -12,6 +12,14 @@ final class StringsManager {
     
     // MARK: - ArticlesViewController
     
+    static let articlesViewControllerAlertCancel = NSLocalizedString("articles.alert.cancel", comment: "Cancel")
+    
+    static let articlesViewControllerAlertDelete = NSLocalizedString("articles.alert.delete", comment: "DELETE")
+
+    static let articlesViewControllerAlertMessage = NSLocalizedString("articles.alert.message", comment: "Are you shure you want detete %@?")
+        
+    static let articlesViewControllerAlertTitle = NSLocalizedString("articles.alert.title", comment: "Warning")
+
     static let articlesViewControllerSignOutButtonTitle = NSLocalizedString("articles.button.sign_out", comment: "Sign out")
     
     // MARK: - ChannelsViewController

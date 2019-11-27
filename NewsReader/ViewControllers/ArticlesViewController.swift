@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-final class ArticlesViewController: UITableViewController, ArticlesDataControllerDelegate {
+final class ArticlesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     // MARK: - Private Properties
             
@@ -52,7 +52,7 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         
         navigationItem.title = navigationItemTitle
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
-        articlesDataController?.delegate = self
+        articlesDataController?.articlesFetchedResultsController.delegate = self
         articlesDataController?.refetchArticles()
                 
         let refreshControl = UIRefreshControl()
@@ -99,10 +99,12 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
     
     @objc
     func refreshTableView(_ refreshControl: UIRefreshControl) {
+        tableViewShouldAnimateCells = false
         refetchTimer = Timer.scheduledTimer(timeInterval: refetchingTimeout, target: self, selector: #selector(timerFired), userInfo: nil, repeats: false)
         articlesDataController?.refetchArticles(completion: { [weak self] in
             refreshControl.endRefreshing()
             self?.refetchTimer.invalidate()
+            self?.tableViewShouldAnimateCells = true
         })
     }
     
@@ -175,25 +177,64 @@ final class ArticlesViewController: UITableViewController, ArticlesDataControlle
         }
     }
     
-    // MARK: - ArticlesDataControllerDelegate
-    
-    func articlesDidChange() {
-        tableViewShouldAnimateCells = true
-        tableView.reloadDataWithAnimation()
-    }
-}
-
-private extension UITableView {
-    
-    func reloadDataWithAnimation() {
-        self.reloadData()
-        
-        var delay = 0
-        let cells = self.visibleCells
-        for cell in cells {
-            ArticlesViewController.animate(cell: cell, delay: 0.1 * Double(delay))
-
-            delay += 1
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alertMessageText = String(format: viewModel.alertMessageText, articlesDataController?.article(at: indexPath.item)?.articleTitle ?? "")
+            let alertController = UIAlertController(title: viewModel.alertTitleText, message: alertMessageText, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: viewModel.alertCancelButtonTitle, style: .cancel) { (_) in
+                alertController.dismiss(animated: true)
+            }
+            let deleteAction = UIAlertAction(title: viewModel.alertDeleteButtonTitle, style: .destructive) { (_) in
+                self.articlesDataController?.deleteArticle(at: indexPath)
+            }
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            present(alertController, animated: true)
         }
+    }
+    
+    // MARK: - NSFetchedresultsControllerDelegate
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableViewShouldAnimateCells = false
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+            
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .fade)
+            }
+        case .move:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .update:
+            guard let indexPath = indexPath,
+                let cell = tableView.cellForRow(at: indexPath) as? ArticleReusableView,
+                let article = articlesDataController?.article(at: indexPath.item) else {
+                return
+            }
+            let viewModel = ArticleReusableViewModel(article: article)
+            apply(viewModel: viewModel, to: cell)
+            
+        @unknown default:
+            assertionFailure("Unknown FetchedResultsControllerChangeType")
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableViewShouldAnimateCells = true
+        tableView.endUpdates()
     }
 }
