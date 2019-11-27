@@ -14,12 +14,16 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - Private Properties
             
     var articlesDataController: ArticlesDataController?
-    
+        
     var maxDisplayedCellIndexPath: IndexPath
+    
+    var maxVisibleCellsCount: Int
     
     let refetchingTimeout = 5.0
     
     var refetchTimer = Timer()
+    
+    let tableViewRowHeight: CGFloat = 120.0
     
     var tableViewShouldAnimateCells: Bool
             
@@ -41,6 +45,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     required init?(coder: NSCoder) {
         maxDisplayedCellIndexPath = IndexPath(item: -1, section: 0)
+        maxVisibleCellsCount = 0
         tableViewShouldAnimateCells = false
         viewModel = ArticlesViewModel()
         
@@ -54,7 +59,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
         articlesDataController?.articlesFetchedResultsController.delegate = self
         articlesDataController?.refetchArticles()
-                
+        maxVisibleCellsCount = Int(tableView.frame.height / tableViewRowHeight)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -63,11 +68,11 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     // MARK: - Private API
     
-    fileprivate static func animate(cell: UITableViewCell, delay: Double? = nil) {
+    private func animate(cell: UITableViewCell, delay: Double? = nil) {
         let originalCellOriginX = cell.frame.origin.x
         cell.frame.origin.x = cell.bounds.width
         let delay = delay ?? 0.0
-        UIView.animate(withDuration: 0.5, delay: delay, options: [], animations: {
+        UIView.animate(withDuration: 0.3, delay: delay, options: [], animations: {
             cell.frame.origin.x = originalCellOriginX
         })
     }
@@ -104,7 +109,6 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         articlesDataController?.refetchArticles(completion: { [weak self] in
             refreshControl.endRefreshing()
             self?.refetchTimer.invalidate()
-            self?.tableViewShouldAnimateCells = true
         })
     }
     
@@ -146,7 +150,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - TableViewDelegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120.0
+        return tableViewRowHeight
     }
     
     // MARK: - UITableViewDelegate
@@ -166,13 +170,13 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         if indexPath.item > maxDisplayedCellIndexPath.item {
             maxDisplayedCellIndexPath = indexPath
             if tableViewShouldAnimateCells {
-                ArticlesViewController.animate(cell: cell)
+                animate(cell: cell)
             }
         }
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.item < maxDisplayedCellIndexPath.item {
+        if indexPath.item < maxDisplayedCellIndexPath.item && indexPath.item >= maxVisibleCellsCount - 1 {
             maxDisplayedCellIndexPath = indexPath
         }
     }
@@ -214,10 +218,10 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
             }
         case .move:
             if let indexPath = indexPath {
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.deleteRows(at: [indexPath], with: .fade)
             }
             if let newIndexPath = newIndexPath {
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                tableView.insertRows(at: [newIndexPath], with: .fade)
             }
         case .update:
             guard let indexPath = indexPath,
