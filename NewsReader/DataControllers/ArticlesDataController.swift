@@ -60,28 +60,23 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
             return
         }
         let articlesFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: self.entityName)
-//        articlesFetchRequest.returnsObjectsAsFaults = false
         let articlesDeleteRequest = NSBatchDeleteRequest(fetchRequest: articlesFetchRequest)
         articlesDeleteRequest.resultType = .resultTypeObjectIDs
         do {
-//            let result = try context.execute(articlesDeleteRequest) as! NSBatchDeleteResult
-//            let changes: [AnyHashable: Any] = [
-//                NSDeletedObjectsKey: result.result as! [NSManagedObjectID]
-//            ]
-//            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
-            guard let articlesToDelete = try context.fetch(articlesFetchRequest) as? [Article] else {
-                return
+            guard let batchRequestResult = try context.execute(articlesDeleteRequest) as? NSBatchDeleteResult,
+                let deletedObjectsKey = batchRequestResult.result as? [NSManagedObjectID] else {
+                    return
             }
+            let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: deletedObjectsKey]
+            context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
 
-            for article in articlesToDelete {
-                context.delete(article)
-            }
             try context.save()
+            completion()
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)
         }
-        completion()
     }
     
     private func fetchArticles() {

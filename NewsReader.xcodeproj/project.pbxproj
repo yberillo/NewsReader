@@ -184,8 +184,8 @@
 		D178441D237ACD130050C56E /* Managed */ = {
 			isa = PBXGroup;
 			children = (
-				D178440B237AC9650050C56E /* NewsReader.xcdatamodeld */,
 				D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */,
+				D178440B237AC9650050C56E /* NewsReader.xcdatamodeld */,
 			);
 			path = Managed;
 			sourceTree = "<group>";
