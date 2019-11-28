@@ -56,3 +56,9 @@
 
 /* Cancel */
 "articles.alert.cancel" = "Cancel";
+
+/* All */
+"articles.filter.all" = "All";
+
+/* Done */
+"articles.filter.done" = "Done";

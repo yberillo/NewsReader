@@ -22,6 +22,10 @@ final class StringsManager {
 
     static let articlesViewControllerSignOutButtonTitle = NSLocalizedString("articles.button.sign_out", comment: "Sign out")
     
+    static let articlesViewControllerFilterAll = NSLocalizedString("articles.filter.all", comment: "All")
+    
+    static let articlesViewControllerFilterDone = NSLocalizedString("articles.filter.done", comment: "Done")
+    
     // MARK: - ChannelsViewController
     
     static let channelsViewControllerNavigationItemTitle = NSLocalizedString("channels.label.title", comment: "Channels")

@@ -27,6 +27,7 @@ extension Channel {
             return .tutby
             
         default:
+            assertionFailure("Unknown channel")
             return nil
         }
     }

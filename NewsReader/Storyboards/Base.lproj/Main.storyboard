@@ -163,10 +163,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Qzf-DJ-NNk">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Hzj-Ba-7bS"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Hzj-Ba-7bS">
+                            <connections>
+                                <action selector="filterBarButtonItemTouchUpInside:" destination="ksv-cc-kBe" id="cqV-mm-JdI"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="filterTabBarButtonItem" destination="Hzj-Ba-7bS" id="xjy-Ak-LOa"/>
+                        <outlet property="filterBarButtonItem" destination="Hzj-Ba-7bS" id="xjy-Ak-LOa"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r8M-rS-l1j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

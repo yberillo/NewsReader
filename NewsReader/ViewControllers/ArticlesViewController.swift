@@ -9,15 +9,25 @@
 import CoreData
 import UIKit
 
-final class ArticlesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+final class ArticlesViewController: UITableViewController, NSFetchedResultsControllerDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var filterTabBarButtonItem: UIBarButtonItem?
+    @IBOutlet weak var filterBarButtonItem: UIBarButtonItem?
     
     // MARK: - Private Properties
             
     var articlesDataController: ArticlesDataController?
+    
+    let channelsDataController: ChannelsDataController
+    
+    var filterAllText: String?
+    
+    let filterHiddenTextField = UITextField()
+    
+    let filterPickerView = UIPickerView()
+    
+    var filterSelectedChannel: Channel?
         
     var maxDisplayedCellIndexPath: IndexPath
     
@@ -26,7 +36,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     let refetchingTimeout = 5.0
     
     var refetchTimer = Timer()
-    
+        
     let tableViewRowHeight: CGFloat = 120.0
     
     var tableViewShouldAnimateCells: Bool
@@ -48,6 +58,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
+        channelsDataController = ChannelsDataController()
         maxDisplayedCellIndexPath = IndexPath(item: -1, section: 0)
         maxVisibleCellsCount = 0
         tableViewShouldAnimateCells = false
@@ -59,6 +70,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        filterAllText = viewModel.filterAllText
         navigationItem.title = navigationItemTitle
         articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
         articlesDataController?.articlesFetchedResultsController.delegate = self
@@ -66,17 +78,19 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         maxVisibleCellsCount = Int(tableView.frame.height / tableViewRowHeight)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
+        setUpFilter()
+        view.addSubview(filterHiddenTextField)
+        filterBarButtonItem?.title = filterAllText
         tableView.refreshControl = refreshControl
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
     }
     
     // MARK: - Private API
     
-    private func animate(cell: UITableViewCell, delay: Double? = nil) {
+    private func animate(cell: UITableViewCell) {
         let originalCellOriginX = cell.frame.origin.x
         cell.frame.origin.x = cell.bounds.width
-        let delay = delay ?? 0.0
-        UIView.animate(withDuration: 0.3, delay: delay, options: [], animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             cell.frame.origin.x = originalCellOriginX
         })
     }
@@ -95,16 +109,63 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     }
     
     private func refreshView() {
-        
-        self.navigationItem.rightBarButtonItem?.title = viewModel.signOutButtonTitle
+        navigationItem.leftBarButtonItem?.title = viewModel.signOutButtonTitle
+        filterAllText = viewModel.filterAllText
     }
     
     private func reloadViewModel() {
-        
         viewModel = ArticlesViewModel()
     }
     
+    private func setUpFilter() {
+        filterPickerView.dataSource = self
+        filterPickerView.delegate = self
+        filterHiddenTextField.frame = CGRect(origin: .zero, size: .zero)
+        filterHiddenTextField.isHidden = true
+        filterHiddenTextField.inputView = filterPickerView
+        
+        let toolBar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: tableView.frame.width, height: 0.0)))
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+
+        let cancelButton = UIBarButtonItem(title: viewModel.filterCancelButtonTitle, style: .plain, target: self, action: #selector(filterCancelButtonTouchUpInside))
+        let doneButton = UIBarButtonItem(title: viewModel.filterDoneButtonTitle, style: .done, target: self, action: #selector(filterDoneButtonTouchUpInside))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+
+        filterHiddenTextField.inputAccessoryView = toolBar
+    }
+    
     // MARK: - Actions
+    
+    @IBAction func filterBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
+        filterHiddenTextField.becomeFirstResponder()
+    }
+    
+    @objc
+    func filterCancelButtonTouchUpInside() {
+        filterHiddenTextField.resignFirstResponder()
+    }
+    
+    @objc
+    func filterDoneButtonTouchUpInside() {
+        filterBarButtonItem?.title = filterSelectedChannel != nil ? filterSelectedChannel?.title : filterAllText
+        filterHiddenTextField.resignFirstResponder()
+        
+        var filterChannels: [Channel]?
+        if let filterSelectedChannel = filterSelectedChannel {
+            filterChannels = [filterSelectedChannel]
+        }
+        else {
+            filterChannels = selectedChannels
+        }
+        articlesDataController?.fetchArticles(of: filterChannels) { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
     
     @objc
     func refreshTableView(_ refreshControl: UIRefreshControl) {
@@ -244,5 +305,37 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableViewShouldAnimateCells = true
         tableView.endUpdates()
+    }
+    
+    // MARK: - UIPickerViewDataSource
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return (selectedChannels?.count ?? 0) + 1
+    }
+    
+    // MARK: - UIPickerViewDelegate
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if row == 0 {
+            return filterAllText
+        }
+        else {
+            return selectedChannels?[row - 1].title
+        }
+    }
+    
+    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row == 0 {
+            filterSelectedChannel = nil
+            filterHiddenTextField.text = filterAllText
+        }
+        else {
+            filterSelectedChannel = selectedChannels?[row - 1]
+            filterHiddenTextField.text = filterSelectedChannel?.title
+        }
     }
 }

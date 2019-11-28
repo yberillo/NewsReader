@@ -79,15 +79,6 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
-    private func fetchArticles() {
-        do {
-            try articlesFetchedResultsController.performFetch()
-        }
-        catch let error as NSError {
-            ErrorManager.handle(error: error)
-        }
-    }
-    
     private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias], completion: @escaping (() -> ())) {
         if articles.isEmpty {
             return
@@ -134,6 +125,27 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         context.delete(article)
         do {
             try context.save()
+        }
+        catch let error as NSError {
+            ErrorManager.handle(error: error)
+        }
+    }
+    
+    func fetchArticles(of channels: [Channel]? = nil, completion: (() -> ())? = nil) {
+        if let channels = channels {
+            var predicates: [NSPredicate] = []
+            for channel in channels {
+                let predicate = NSPredicate(format: "\(ArticlesDataController.Keys.channel) = %@", channel)
+                predicates.append(predicate)
+            }
+            articlesFetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        }
+        
+        do {
+            try articlesFetchedResultsController.performFetch()
+            if let completion = completion {
+                completion()
+            }
         }
         catch let error as NSError {
             ErrorManager.handle(error: error)

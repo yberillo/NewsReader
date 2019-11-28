@@ -19,6 +19,12 @@ struct ArticlesViewModel {
         
     let alertTitleText: String
     
+    let filterAllText: String
+    
+    let filterCancelButtonTitle: String
+    
+    let filterDoneButtonTitle: String
+    
     let signOutButtonTitle: String
     
     // MARK: - Lifecycle
@@ -28,6 +34,9 @@ struct ArticlesViewModel {
         alertDeleteButtonTitle = StringsManager.articlesViewControllerAlertDelete
         alertMessageText = StringsManager.articlesViewControllerAlertMessage
         alertTitleText = StringsManager.articlesViewControllerAlertTitle
+        filterAllText = StringsManager.articlesViewControllerFilterAll
+        filterCancelButtonTitle = StringsManager.articlesViewControllerAlertCancel
+        filterDoneButtonTitle = StringsManager.articlesViewControllerFilterDone
         signOutButtonTitle = StringsManager.articlesViewControllerSignOutButtonTitle
     }
 }
