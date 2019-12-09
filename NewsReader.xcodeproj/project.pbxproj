@@ -24,8 +24,9 @@
 		D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */; };
 		D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784431237AF05F0050C56E /* ChannelsViewController.swift */; };
 		D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1784433237B01A10050C56E /* ChannelsDataController.swift */; };
+		D1794FB9239E68DD00D87EC9 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1794FB8239E68DD00D87EC9 /* MainCoordinator.swift */; };
+		D1794FBB239E97B600D87EC9 /* ArticleWebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1794FBA239E97B600D87EC9 /* ArticleWebViewModel.swift */; };
 		D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D179BB3B237FE3EB00E36952 /* ErrorManager.swift */; };
-		D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */; };
 		D1A26BD5237C303A0071461D /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD4237C303A0071461D /* RSSParser.swift */; };
 		D1A7D6BA238E8A210027FF85 /* Channel+ChannelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */; };
 		D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA549237D74E300D5108D /* RSSParserKeys.swift */; };
@@ -34,7 +35,6 @@
 		D1ABA550237D9B4D00D5108D /* ArticleWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA54F237D9B4D00D5108D /* ArticleWebViewController.swift */; };
 		D1B8BEAD2387D3250046D37C /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B8BEAC2387D3250046D37C /* Date+String.swift */; };
 		D1B8BEAF2387D4EF0046D37C /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B8BEAE2387D4EF0046D37C /* String+Date.swift */; };
-		D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C84AC1237BE457007186A8 /* RootViewController.swift */; };
 		D1E020192382CC8A009365D9 /* ArticleReusableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */; };
 		D1E0201B2382D1E1009365D9 /* ChannelReusableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */; };
 		D1E0201D2382D3D9009365D9 /* ChannelReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1E0201C2382D3D9009365D9 /* ChannelReusableView.xib */; };
@@ -64,8 +64,9 @@
 		D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
 		D1784431237AF05F0050C56E /* ChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewController.swift; sourceTree = "<group>"; };
 		D1784433237B01A10050C56E /* ChannelsDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsDataController.swift; sourceTree = "<group>"; };
+		D1794FB8239E68DD00D87EC9 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		D1794FBA239E97B600D87EC9 /* ArticleWebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebViewModel.swift; sourceTree = "<group>"; };
 		D179BB3B237FE3EB00E36952 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
-		D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesCoordinator.swift; sourceTree = "<group>"; };
 		D1A26BD4237C303A0071461D /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+ChannelType.swift"; sourceTree = "<group>"; };
 		D1ABA549237D74E300D5108D /* RSSParserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParserKeys.swift; sourceTree = "<group>"; };
@@ -74,7 +75,6 @@
 		D1ABA54F237D9B4D00D5108D /* ArticleWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleWebViewController.swift; sourceTree = "<group>"; };
 		D1B8BEAC2387D3250046D37C /* Date+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+String.swift"; sourceTree = "<group>"; };
 		D1B8BEAE2387D4EF0046D37C /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
-		D1C84AC1237BE457007186A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleReusableViewModel.swift; sourceTree = "<group>"; };
 		D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelReusableViewModel.swift; sourceTree = "<group>"; };
 		D1E0201C2382D3D9009365D9 /* ChannelReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelReusableView.xib; sourceTree = "<group>"; };
@@ -159,7 +159,6 @@
 				D1ABA54F237D9B4D00D5108D /* ArticleWebViewController.swift */,
 				D1784431237AF05F0050C56E /* ChannelsViewController.swift */,
 				D1784406237AC9650050C56E /* LoginViewController.swift */,
-				D1C84AC1237BE457007186A8 /* RootViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -223,6 +222,7 @@
 				D1E020182382CC8A009365D9 /* ArticleReusableViewModel.swift */,
 				D1E020242382E433009365D9 /* ArticleViewModel.swift */,
 				D1ABA54B237D836D00D5108D /* ArticlesViewModel.swift */,
+				D1794FBA239E97B600D87EC9 /* ArticleWebViewModel.swift */,
 				D1E0201A2382D1E1009365D9 /* ChannelReusableViewModel.swift */,
 				D178442F237AEFFE0050C56E /* ChannelsViewModel.swift */,
 				D1784424237ADFC80050C56E /* LoginViewModel.swift */,
@@ -233,7 +233,7 @@
 		D1A26BCC237C27BA0071461D /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				D1A26BCD237C27E40071461D /* ArticlesCoordinator.swift */,
+				D1794FB8239E68DD00D87EC9 /* MainCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -324,7 +324,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1C84AC2237BE457007186A8 /* RootViewController.swift in Sources */,
 				D1ABA54C237D836D00D5108D /* ArticlesViewModel.swift in Sources */,
 				D1784434237B01A10050C56E /* ChannelsDataController.swift in Sources */,
 				D1E020252382E433009365D9 /* ArticleViewModel.swift in Sources */,
@@ -334,9 +333,10 @@
 				D179BB3C237FE3EB00E36952 /* ErrorManager.swift in Sources */,
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
 				D1B8BEAF2387D4EF0046D37C /* String+Date.swift in Sources */,
+				D1794FBB239E97B600D87EC9 /* ArticleWebViewModel.swift in Sources */,
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
 				D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */,
-				D1A26BCE237C27E40071461D /* ArticlesCoordinator.swift in Sources */,
+				D1794FB9239E68DD00D87EC9 /* MainCoordinator.swift in Sources */,
 				D1A7D6BA238E8A210027FF85 /* Channel+ChannelType.swift in Sources */,
 				D1784425237ADFC80050C56E /* LoginViewModel.swift in Sources */,
 				D168271F238686870038D9E3 /* StringsManager.swift in Sources */,

@@ -16,19 +16,13 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     @IBOutlet weak var filterBarButtonItem: UIBarButtonItem?
     
     // MARK: - Private Properties
-            
-    var articlesDataController: ArticlesDataController?
-    
-    let channelsDataController: ChannelsDataController
     
     var filterAllText: String?
     
     let filterHiddenTextField = UITextField()
     
     let filterPickerView = UIPickerView()
-    
-    var filterSelectedChannel: Channel?
-        
+            
     var maxDisplayedCellIndexPath: IndexPath
     
     var maxVisibleCellsCount: Int
@@ -41,28 +35,18 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     var tableViewShouldAnimateCells: Bool
             
-    var viewModel: ArticlesViewModel {
-        
-        didSet {
-            
-            self.refreshView()
-        }
-    }
+    var viewModel: ArticlesViewModel?
     
     // MARK: - Internal Properties
     
     var navigationItemTitle: String?
-    
-    var selectedChannels: [Channel]?
-    
+        
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        channelsDataController = ChannelsDataController()
         maxDisplayedCellIndexPath = IndexPath(item: -1, section: 0)
         maxVisibleCellsCount = 0
         tableViewShouldAnimateCells = false
-        viewModel = ArticlesViewModel()
         
         super.init(coder: coder)
     }
@@ -70,11 +54,9 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        filterAllText = viewModel.filterAllText
+        filterAllText = viewModel?.filterAllText
         navigationItem.title = navigationItemTitle
-        articlesDataController = ArticlesDataController(selectedChannels: self.selectedChannels)
-        articlesDataController?.articlesFetchedResultsController.delegate = self
-        articlesDataController?.refetchArticles()
+        viewModel?.refetchArticles()
         maxVisibleCellsCount = Int(tableView.frame.height / tableViewRowHeight)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
@@ -83,6 +65,8 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         filterBarButtonItem?.title = filterAllText
         tableView.refreshControl = refreshControl
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
+        
+        refreshView()
     }
     
     // MARK: - Private API
@@ -109,12 +93,8 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     }
     
     private func refreshView() {
-        navigationItem.leftBarButtonItem?.title = viewModel.signOutButtonTitle
-        filterAllText = viewModel.filterAllText
-    }
-    
-    private func reloadViewModel() {
-        viewModel = ArticlesViewModel()
+        navigationItem.leftBarButtonItem?.title = viewModel?.signOutButtonTitle
+        filterAllText = viewModel?.filterAllText
     }
     
     private func setUpFilter() {
@@ -129,8 +109,8 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         toolBar.isTranslucent = true
         toolBar.sizeToFit()
 
-        let cancelButton = UIBarButtonItem(title: viewModel.filterCancelButtonTitle, style: .plain, target: self, action: #selector(filterCancelButtonTouchUpInside))
-        let doneButton = UIBarButtonItem(title: viewModel.filterDoneButtonTitle, style: .done, target: self, action: #selector(filterDoneButtonTouchUpInside))
+        let cancelButton = UIBarButtonItem(title: viewModel?.filterCancelButtonTitle, style: .plain, target: self, action: #selector(filterCancelButtonTouchUpInside))
+        let doneButton = UIBarButtonItem(title: viewModel?.filterDoneButtonTitle, style: .done, target: self, action: #selector(filterDoneButtonTouchUpInside))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
@@ -152,17 +132,17 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     @objc
     func filterDoneButtonTouchUpInside() {
-        filterBarButtonItem?.title = filterSelectedChannel != nil ? filterSelectedChannel?.title : filterAllText
+        filterBarButtonItem?.title = viewModel?.filterSelectedChannel != nil ? viewModel?.filterSelectedChannel?.title : filterAllText
         filterHiddenTextField.resignFirstResponder()
         
         var filterChannels: [Channel]?
-        if let filterSelectedChannel = filterSelectedChannel {
+        if let filterSelectedChannel = viewModel?.filterSelectedChannel {
             filterChannels = [filterSelectedChannel]
         }
         else {
-            filterChannels = selectedChannels
+            filterChannels = viewModel?.articlesDataController.selectedChannels
         }
-        articlesDataController?.fetchArticles(of: filterChannels) { [weak self] in
+        viewModel?.fetchArticles(of: filterChannels) { [weak self] in
             self?.tableView.reloadData()
         }
     }
@@ -171,7 +151,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     func refreshTableView(_ refreshControl: UIRefreshControl) {
         tableViewShouldAnimateCells = false
         refetchTimer = Timer.scheduledTimer(timeInterval: refetchingTimeout, target: self, selector: #selector(timerFired), userInfo: nil, repeats: false)
-        articlesDataController?.refetchArticles(completion: { [weak self] in
+        viewModel?.refetchArticles(completion: { [weak self] in
             refreshControl.endRefreshing()
             self?.refetchTimer.invalidate()
         })
@@ -188,7 +168,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let articleViewController = segue.destination as? ArticleViewController,
             let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let article = articlesDataController?.article(at: selectedIndexPath.item) else {
+            let article = viewModel?.article(at: selectedIndexPath.item) else {
             return
         }
         articleViewController.viewModel = ArticleViewModel(article: article)
@@ -197,12 +177,12 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articlesDataController?.articlesCount ?? 0
+        return viewModel?.articlesCount ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ArticleReusableViewModel.reusableIdentifier, for: indexPath) as? ArticleReusableView,
-            let article = articlesDataController?.article(at: indexPath.item) else {
+            let article = viewModel?.article(at: indexPath.item) else {
             
             return UITableViewCell()
         }
@@ -211,24 +191,15 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         
         return cell
     }
-        
-    // MARK: - TableViewDelegate
+    
+    // MARK: - UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewRowHeight
     }
     
-    // MARK: - UITableViewDelegate
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ArticleViewController") as? ArticleViewController,
-            let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let article = articlesDataController?.article(at: selectedIndexPath.item) else {
-            return
-        }
-        articleViewController.viewModel = ArticleViewModel(article: article)
-        
-        navigationController?.pushViewController(articleViewController, animated: true)
+        AppDelegate.mainCoordinator.pushArticleViewController(article: viewModel?.article(at: indexPath.item))
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -248,18 +219,18 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let alertMessageText = String(format: viewModel.alertMessageText, articlesDataController?.article(at: indexPath.item)?.articleTitle ?? "")
-            let alertController = UIAlertController(title: viewModel.alertTitleText, message: alertMessageText, preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: viewModel.alertCancelButtonTitle, style: .cancel) { (_) in
+            let alertMessageText = String(format: viewModel?.alertMessageText ?? "", viewModel?.article(at: indexPath.item)?.articleTitle ?? "")
+            let alertController = UIAlertController(title: viewModel?.alertTitleText, message: alertMessageText, preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: viewModel?.alertCancelButtonTitle, style: .cancel) { (_) in
                 alertController.dismiss(animated: true)
             }
-            let deleteAction = UIAlertAction(title: viewModel.alertDeleteButtonTitle, style: .destructive) { (_) in
-                self.articlesDataController?.deleteArticle(at: indexPath)
+            let deleteAction = UIAlertAction(title: viewModel?.alertDeleteButtonTitle, style: .destructive) { (_) in
+                self.viewModel?.deleteArticle(at: indexPath.item)
             }
             alertController.addAction(cancelAction)
             alertController.addAction(deleteAction)
             
-            present(alertController, animated: true)
+            AppDelegate.mainCoordinator.presentAlertController(alertController: alertController, from: self)
         }
     }
     
@@ -291,7 +262,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         case .update:
             guard let indexPath = indexPath,
                 let cell = tableView.cellForRow(at: indexPath) as? ArticleReusableView,
-                let article = articlesDataController?.article(at: indexPath.item) else {
+                let article = viewModel?.article(at: indexPath.item) else {
                 return
             }
             let viewModel = ArticleReusableViewModel(article: article)
@@ -314,7 +285,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return (selectedChannels?.count ?? 0) + 1
+        return (viewModel?.articlesDataController.selectedChannels?.count ?? 0) + 1
     }
     
     // MARK: - UIPickerViewDelegate
@@ -324,18 +295,19 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
             return filterAllText
         }
         else {
-            return selectedChannels?[row - 1].title
+            return viewModel?.articlesDataController.selectedChannels?[row - 1].title
         }
     }
     
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row == 0 {
-            filterSelectedChannel = nil
+            viewModel?.filterSelectedChannel = nil
             filterHiddenTextField.text = filterAllText
         }
         else {
-            filterSelectedChannel = selectedChannels?[row - 1]
-            filterHiddenTextField.text = filterSelectedChannel?.title
+            let currentFilterSelectedChannel = viewModel?.articlesDataController.selectedChannels?[row - 1]
+            viewModel?.filterSelectedChannel = currentFilterSelectedChannel
+            filterHiddenTextField.text = viewModel?.filterSelectedChannel?.title
         }
     }
 }

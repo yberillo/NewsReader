@@ -10,6 +10,10 @@ import Foundation
 
 struct LoginViewModel {
     
+    // MARK: - DataControllers
+    
+    let usersDataController: UsersDataController
+    
     // MARK: - Internal Properties
     
     let alertMessageText: String
@@ -30,7 +34,9 @@ struct LoginViewModel {
     
     // MARK: - Lifecycle
     
-    init() {
+    init(usersDataController: UsersDataController) {
+        self.usersDataController = usersDataController
+        
         alertMessageText = StringsManager.loginViewControllerAlertMessageText
         alertOkButtonText = StringsManager.loginViewControllerAlertOkButtonText
         alertTitleText = StringsManager.loginViewControllerAlertTitleText
@@ -39,5 +45,15 @@ struct LoginViewModel {
         registerButtonText = StringsManager.loginViewControllerRegisterButtonText
         signInButtonText = StringsManager.loginViewControllerSignInButtonText
         usernameLabelText = StringsManager.loginViewControllerUsernameLabelText
+    }
+    
+    // MARK: - Internal API
+    
+    func authenticateUser(with username: String, password: String) {
+        usersDataController.authenticateUser(with: username, password: password)
+    }
+    
+    func registerUser(with username: String, password: String) -> Bool {
+        return usersDataController.registerUser(with: username, password: password)
     }
 }

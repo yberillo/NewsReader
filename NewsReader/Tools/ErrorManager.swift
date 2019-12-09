@@ -13,14 +13,10 @@ final class ErrorManager {
     // MARK: - Internal Static API
     
     static func handle(error: Error) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-            let rootViewController = appDelegate.window?.rootViewController else {
-            return
-        }
-        let alertViewController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertViewController.addAction(okAction)
+        alertController.addAction(okAction)
         
-        rootViewController.present(alertViewController, animated: true)
+        AppDelegate.mainCoordinator.presentAlertController(alertController: alertController, from: AppDelegate.mainCoordinator.rootViewController)
     }
 }

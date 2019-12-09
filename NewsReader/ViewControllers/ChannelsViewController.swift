@@ -17,38 +17,25 @@ protocol ChannelsViewControllerDelegate: NSObjectProtocol {
 final class ChannelsViewController: UITableViewController {
     
     // MARK: - Private Properties
-    
-    let channelsDataController: ChannelsDataController
-    
+        
     var selectedChannels:[Channel]?
     
-    var viewModel: ChannelsViewModel {
-        
-        didSet {
-            
-            self.refreshView()
-        }
-    }
+    var viewModel: ChannelsViewModel?
     
     // MARK: - Internal Properties
     
     weak var delegate: ChannelsViewControllerDelegate?
-    
-    var usersDataController: UsersDataController?
-    
+        
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        channelsDataController = ChannelsDataController()
-        viewModel = ChannelsViewModel()
-        
         super.init(coder: coder)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        reloadViewModel()
+        refreshView()
         reloadSelectedChannels()
         
         tableView.register(UINib(nibName: ChannelReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ChannelReusableViewModel.reusableIdentifier)
@@ -65,20 +52,12 @@ final class ChannelsViewController: UITableViewController {
     
     @IBAction func nextBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
         saveSelectedChannels()
+        let selectedChannels = getSelectedChannels()
+        AppDelegate.mainCoordinator.pushArticlesViewController(selectedChannels: selectedChannels, channelsDataController: self.viewModel?.channelsDataController ?? ChannelsDataController())
     }
     @IBAction func signOutBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
-        usersDataController?.signOut()
+        viewModel?.signOut()
         delegate?.signOut()
-    }
-    
-    // MARK: - Segues
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let articlesViewController = segue.destination as? ArticlesViewController else {
-            return
-        }
-        saveSelectedChannels()
-        articlesViewController.selectedChannels = getSelectedChannels()
     }
     
     // MARK: - Private API
@@ -96,7 +75,7 @@ final class ChannelsViewController: UITableViewController {
             }
             if channelSwitch.isOn {
                 guard let indexPath = tableView.indexPath(for: channelCell),
-                let channel = channelsDataController.channel(at: indexPath.item) else {
+                    let channel = viewModel?.channel(at: indexPath.item) else {
                     return []
                 }
                 selectedChannels.append(channel)
@@ -106,40 +85,36 @@ final class ChannelsViewController: UITableViewController {
     }
     
     private func refreshView() {
-        self.navigationItem.title = viewModel.navigationItemTitle
-        self.navigationItem.leftBarButtonItem?.title = viewModel.signOutButtonText
-        self.navigationItem.rightBarButtonItem?.title = viewModel.nextButtonText
+        self.navigationItem.title = viewModel?.navigationItemTitle
+        self.navigationItem.leftBarButtonItem?.title = viewModel?.signOutButtonText
+        self.navigationItem.rightBarButtonItem?.title = viewModel?.nextButtonText
     }
     
     private func reloadSelectedChannels() {
-        guard let currentUser = usersDataController?.currentUser else {
+        guard let usersDataController = viewModel?.usersDataController, let currentUser = usersDataController.currentUser else {
             return
         }
-        selectedChannels = channelsDataController.getSelectedChannels(for: currentUser)
+        selectedChannels = viewModel?.getSelectedChannels(for: currentUser)
         tableView.reloadData()
-    }
-    
-    private func reloadViewModel() {
-        viewModel = ChannelsViewModel()
     }
     
     private func saveSelectedChannels() {
         let selectedChannels = getSelectedChannels()
-        guard let currentUser = usersDataController?.currentUser else {
+        guard let usersDataController = viewModel?.usersDataController, let currentUser = usersDataController.currentUser else {
             return
         }
-        channelsDataController.save(selectedChannels: selectedChannels, for: currentUser)
+        viewModel?.save(selectedChannels: selectedChannels, for: currentUser)
     }
 
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return channelsDataController.channelsCount
+        return viewModel?.channelsCount ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChannelReusableViewModel.reusableIdentifier, for: indexPath) as? ChannelReusableView,
-            let channel = channelsDataController.channel(at: indexPath.item) else {
+            let channel = viewModel?.channel(at: indexPath.item) else {
                 return UITableViewCell()
         }
         let channelReusableViewModel = ChannelReusableViewModel(channel: channel, selectedChannels: selectedChannels)

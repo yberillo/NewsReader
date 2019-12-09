@@ -11,6 +11,16 @@ import UIKit
 
 final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate {
     
+    // MARK: - Strings
+    
+    private let brOpeningString = "<br"
+        
+    private let imageUrlStringClosingString = "\""
+    
+    private let imgClosingString = "/>"
+    
+    private let imgOpeningString = "<img src=\""
+    
     // MARK: - Private Properties
         
     private var channelsLoadedCount: Int
@@ -20,9 +30,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
     }()
     
     private let entityName = "Article"
-            
-    private let selectedChannels: [Channel]?
-    
+                
     private var shouldDeleteArticles: Bool {
         return self.channelsLoadedCount == 1 ? true : false
     }
@@ -34,6 +42,8 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
     }
     
     let articlesFetchedResultsController: NSFetchedResultsController<Article>
+    
+    let selectedChannels: [Channel]?
         
     // MARK: - Lifecycle
     
@@ -79,7 +89,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
-    private func importArticles(from articles: [ArticlesCoordinator.ArticleAlias], completion: @escaping (() -> ())) {
+    private func importArticles(from articles: [ArticleAlias], completion: @escaping (() -> ())) {
         if articles.isEmpty {
             return
         }
@@ -103,6 +113,82 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
             ErrorManager.handle(error: error)
         }
     }
+    
+    private func loadArticles(rssParserKeys: RSSParserKeys, channel: Channel, completion: @escaping([ArticleAlias]) -> ()) {
+        guard let rssUrlString = channel.url, let rssUrl = URL(string: rssUrlString), let channelType = channel.type else {
+                return
+        }
+        let parser = RSSParser(rssParserKeys: rssParserKeys)
+        DispatchQueue.global().async {
+            parser.parseFrom(url: rssUrl) { [weak self] (parsed) in
+                if parsed {
+                    var articles: [ArticleAlias] = []
+                    for element in parser.parsedData {
+                        let article = ArticleAlias()
+                        if let articleDateString = element[rssParserKeys.pubDate] {
+                            article.articleDate = articleDateString.dateFromRssDateString
+                        }
+                        
+                        switch channelType {
+                            
+                        case .lentaru:
+                            article.articleDescription = element[rssParserKeys.description]
+                            article.thumbnailUrlString = element[rssParserKeys.enclosure]
+                            
+                        case .tutby:
+                            let (thumbnailUrlString, descriptionTextString) = self?.parseDescription(descriptionString: element[rssParserKeys.description]) ?? (element[rssParserKeys.enclosure], element[rssParserKeys.description])
+                            
+                            article.articleDescription = descriptionTextString
+                            article.thumbnailUrlString = thumbnailUrlString
+                            
+                        @unknown default:
+                            assertionFailure("Unknown channel")
+                        }
+                        article.articleTitle = element[rssParserKeys.title]
+                        article.imageUrlString = element[rssParserKeys.enclosure]
+                        article.channel = channel
+                        article.urlString = element[rssParserKeys.link]
+                       
+                        articles.append(article)
+                    }
+                    DispatchQueue.main.async {
+                        completion(articles)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func parseDescription(descriptionString: String?) -> (imageUrlString: String, descriptionTextString: String) {
+        
+        guard let descriptionString = descriptionString else {
+            return ("", "")
+        }
+        var tempString = descriptionString
+        
+        if let imgOpeningRange = tempString.range(of: imgOpeningString) {
+            tempString = String(tempString.suffix(from: imgOpeningRange.upperBound))
+        }
+        let imageUrlString: String
+        if let imageUrlStringClosingRange = tempString.range(of: imageUrlStringClosingString) {
+            imageUrlString = String(tempString.prefix(upTo: imageUrlStringClosingRange.lowerBound))
+        }
+        else {
+            imageUrlString = ""
+        }
+        if let imgClosingRange = tempString.range(of: imgClosingString) {
+            tempString = String(tempString.suffix(from: imgClosingRange.upperBound))
+        }
+        let descriptionTextString: String
+        if let brOpeningRange = tempString.range(of: brOpeningString) {
+            descriptionTextString = String(tempString.prefix(upTo: brOpeningRange.lowerBound))
+        }
+        else {
+            descriptionTextString = ""
+        }
+        
+        return (imageUrlString, descriptionTextString)
+    }
         
     // MARK: - Internal API
     
@@ -118,8 +204,8 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
         }
     }
     
-    func deleteArticle(at indexPath: IndexPath) {
-        guard let article = article(at: indexPath.item) else {
+    func deleteArticle(at index: Int) {
+        guard let article = article(at: index) else {
             return
         }
         context.delete(article)
@@ -158,8 +244,7 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
             return
         }
         for channel in selectedChannels {
-            let articlesCoordinator = ArticlesCoordinator(channel: channel)
-            articlesCoordinator.fetchArticles(rssParserKeys: articlesCoordinator.rssParserKeys) { [weak self] (articles)  in
+            loadArticles(rssParserKeys: RSSParserKeys(), channel: channel) { [weak self] (articles)  in
                 if !articles.isEmpty {
                     self?.channelsLoadedCount += 1
                 }
@@ -176,7 +261,24 @@ final class ArticlesDataController: NSObject, NSFetchedResultsControllerDelegate
 }
 
 fileprivate extension ArticlesDataController {
-
+        
+    class ArticleAlias {
+        
+        var articleDate: Date?
+        
+        var articleDescription: String?
+        
+        var articleTitle: String?
+        
+        var imageUrlString: String?
+        
+        var urlString: String?
+        
+        var thumbnailUrlString: String?
+        
+        var channel: Channel?
+    }
+    
     struct Keys {
         
         static var articleDate: String {

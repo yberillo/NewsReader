@@ -77,15 +77,10 @@ final class ArticleViewController: UIViewController {
     
     @objc
     private func gestureRecognizerTap() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        guard let articleWebViewController = storyboard.instantiateViewController(identifier: "ArticleWebViewController") as? ArticleWebViewController,
-            let articleUrlString = viewModel?.linkLabelText,
+        guard let articleUrlString = viewModel?.linkLabelText,
             let articleUrl = URL(string: articleUrlString) else {
             return
         }
-        articleWebViewController.articleUrl = articleUrl
-        
-        self.navigationController?.pushViewController(articleWebViewController, animated: true)
+        AppDelegate.mainCoordinator.pushArticleWebViewController(articleUrl: articleUrl)
     }
 }

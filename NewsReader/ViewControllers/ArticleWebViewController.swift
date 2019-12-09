@@ -11,18 +11,18 @@ import WebKit
 
 class ArticleWebViewController: UIViewController {
     
+    // MARK: - Internal Properties
+    
+    var viewModel: ArticleWebViewModel?
+    
     // MARK: - Outlets
     
     @IBOutlet weak var webView: WKWebView?
     
-    // MARK: - Internal Properties
-    
-    var articleUrl: URL?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let articleUrl = self.articleUrl else {
+        guard let articleUrl = viewModel?.articleUrl else {
             return
         }
         webView?.load(URLRequest(url: articleUrl))

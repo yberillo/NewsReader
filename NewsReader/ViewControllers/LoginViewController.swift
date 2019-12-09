@@ -32,35 +32,23 @@ final class LoginViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel?
     
     @IBOutlet weak var usernameTextField: UITextField?
-    
-    // MARK: - Private Properties
-            
-    private var viewModel: LoginViewModel {
-        
-        didSet {
-            
-            refreshView()
-        }
-    }
-    
+                
     // MARK: - Internal Properties
     
     weak var delegate: LoginViewControllerDelegate?
-    
-    var usersDataController: UsersDataController?
+        
+    var viewModel: LoginViewModel?
     
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        viewModel = LoginViewModel()
-        
         super.init(coder: coder)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginView?.layer.cornerRadius = loginView?.frame.size.height ?? 0.0 / 10.0
+        loginView?.layer.cornerRadius = (loginView?.frame.size.height ?? 0.0) / 10.0
                 
         refreshView()
     }
@@ -71,19 +59,19 @@ final class LoginViewController: UIViewController {
         guard let username = usernameTextField?.text, let password = passwordTextField?.text else {
             return
         }
-        let isUserRegistered = usersDataController?.registerUser(with: username, password: password)
+        let isUserRegistered = viewModel?.registerUser(with: username, password: password)
         
         if isUserRegistered == true {
-            _ = usersDataController?.authenticateUser(with: username, password: password)
+            _ = viewModel?.authenticateUser(with: username, password: password)
             self.delegate?.signIn()
         }
         else {
-            let alertController = UIAlertController(title: viewModel.alertTitleText, message: viewModel.alertMessageText, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: viewModel.alertOkButtonText, style: .cancel, handler: nil)
+            let alertController = UIAlertController(title: viewModel?.alertTitleText, message: viewModel?.alertMessageText, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: viewModel?.alertOkButtonText, style: .cancel, handler: nil)
             
             alertController.addAction(okAction)
             
-            present(alertController, animated: true)
+            AppDelegate.mainCoordinator.presentAlertController(alertController: alertController, from: self)
         }
     }
     
@@ -92,9 +80,9 @@ final class LoginViewController: UIViewController {
             
             return
         }
-        _ = usersDataController?.authenticateUser(with: username, password: password)
+        _ = viewModel?.authenticateUser(with: username, password: password)
         
-        if usersDataController?.currentUser == nil {
+        if viewModel?.usersDataController.currentUser == nil {
             invalidLabel?.isHidden = false
         }
         else {
@@ -106,14 +94,13 @@ final class LoginViewController: UIViewController {
     // MARK: - Private API
     
     private func refreshView() {
+        guard let viewModel = viewModel else {
+            return
+        }
         invalidLabel?.text = viewModel.invalidLabelText
         passwordLabel?.text = viewModel.passwordLabelText
         registerButton?.setTitle(viewModel.registerButtonText, for: .normal)
         signInButton?.setTitle(viewModel.signInButtonText, for: .normal)
         usernameLabel?.text = viewModel.usernameLabelText
-    }
-    
-    private func reloadViewModel() {
-        viewModel = LoginViewModel()
     }
 }
