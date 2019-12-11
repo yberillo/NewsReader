@@ -31,14 +31,27 @@ final class ChannelsViewController: UITableViewController {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    init(nibName: String, viewModel: ChannelsViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nibName, bundle: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshView()
         reloadSelectedChannels()
         
         tableView.register(UINib(nibName: ChannelReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ChannelReusableViewModel.reusableIdentifier)
+        
+        let leftBarButtonItem = UIBarButtonItem(title: "Sign out", style: .plain, target: self, action: #selector(self.signOutBarButtonItemTouchUpInside(_:)))
+        let rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(self.nextBarButtonItemTouchUpInside(_:)))
+        
+        self.navigationItem.setLeftBarButton(leftBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(rightBarButtonItem, animated: false)
+        
+        refreshView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
     }

@@ -11,21 +11,19 @@ import UIKit
 
 final class ArticlesViewController: UITableViewController, NSFetchedResultsControllerDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
     
-    // MARK: - Outlets
-    
-    @IBOutlet weak var filterBarButtonItem: UIBarButtonItem?
-    
     // MARK: - Private Properties
     
     var filterAllText: String?
+    
+    var filterBarButtonItem = UIBarButtonItem()
     
     let filterHiddenTextField = UITextField()
     
     let filterPickerView = UIPickerView()
             
-    var maxDisplayedCellIndexPath: IndexPath
+    var maxDisplayedCellIndexPath: IndexPath = IndexPath(item: -1, section: 0)
     
-    var maxVisibleCellsCount: Int
+    var maxVisibleCellsCount: Int = 0
     
     let refetchingTimeout = 5.0
     
@@ -33,7 +31,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         
     let tableViewRowHeight: CGFloat = 120.0
     
-    var tableViewShouldAnimateCells: Bool
+    var tableViewShouldAnimateCells: Bool = false
             
     var viewModel: ArticlesViewModel?
     
@@ -44,11 +42,13 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
-        maxDisplayedCellIndexPath = IndexPath(item: -1, section: 0)
-        maxVisibleCellsCount = 0
-        tableViewShouldAnimateCells = false
-        
         super.init(coder: coder)
+    }
+    
+    init(nibName: String, viewModel: ArticlesViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nibName, bundle: nil)
     }
     
     override func viewDidLoad() {
@@ -62,7 +62,8 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
         refreshControl.addTarget(self, action: #selector(refreshTableView(_:)), for: .valueChanged)
         setUpFilter()
         view.addSubview(filterHiddenTextField)
-        filterBarButtonItem?.title = filterAllText
+        filterBarButtonItem = UIBarButtonItem(title: filterAllText, style: .plain, target: self, action: #selector(self.filterBarButtonItemTouchUpInside(_:)))
+        navigationItem.setRightBarButton(filterBarButtonItem, animated: false)
         tableView.refreshControl = refreshControl
         tableView.register(UINib(nibName: ArticleReusableViewModel.reusableIdentifier, bundle: nil), forCellReuseIdentifier: ArticleReusableViewModel.reusableIdentifier)
         
@@ -132,7 +133,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     
     @objc
     func filterDoneButtonTouchUpInside() {
-        filterBarButtonItem?.title = viewModel?.filterSelectedChannel != nil ? viewModel?.filterSelectedChannel?.title : filterAllText
+        filterBarButtonItem.title = viewModel?.filterSelectedChannel != nil ? viewModel?.filterSelectedChannel?.title : filterAllText
         filterHiddenTextField.resignFirstResponder()
         
         var filterChannels: [Channel]?
@@ -161,17 +162,6 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     func timerFired() {
         refetchTimer.invalidate()
         tableView.refreshControl?.endRefreshing()
-    }
-    
-    // MARK: - Segues
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let articleViewController = segue.destination as? ArticleViewController,
-            let selectedIndexPath = tableView.indexPathForSelectedRow,
-            let article = viewModel?.article(at: selectedIndexPath.item) else {
-            return
-        }
-        articleViewController.viewModel = ArticleViewModel(article: article)
     }
 
     // MARK: - Table view data source

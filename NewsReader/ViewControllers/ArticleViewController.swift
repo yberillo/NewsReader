@@ -42,6 +42,13 @@ final class ArticleViewController: UIViewController {
         super.init(coder: coder)
     }
     
+    init(nibName: String, viewModel: ArticleViewModel) {
+        self.viewModel = viewModel
+        gestureRecognizer = UITapGestureRecognizer()
+
+        super.init(nibName: nibName, bundle: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

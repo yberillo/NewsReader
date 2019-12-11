@@ -59,20 +59,21 @@ final class MainCoordinator: NSObject, ChannelsViewControllerDelegate, LoginView
     private func reloadCurrentViewController() {
         usersDataController.restoreUser()
         if usersDataController.currentUser != nil {
-            let channelsNavigationController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ChannelsNavigationController") as? UINavigationController
-            let channelsViewController = channelsNavigationController?.viewControllers.first as? ChannelsViewController
+            
             let channelsDataController = ChannelsDataController()
             let channelsViewModel = ChannelsViewModel(channelsDataController: channelsDataController, usersDataController: usersDataController)
-            channelsViewController?.viewModel = channelsViewModel
-            channelsViewController?.delegate = self
+            let channelsViewController = ChannelsViewController(nibName: nibNameForViewController(.channels), viewModel: channelsViewModel)
+            let channelsNavigationController = UINavigationController(rootViewController: channelsViewController)
+
+            channelsViewController.viewModel = channelsViewModel
+            channelsViewController.delegate = self
             currentViewController = channelsNavigationController
-            navigationController = channelsViewController?.navigationController
+            navigationController = channelsViewController.navigationController
         }
         else {
-            let loginViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController") as? LoginViewController
             let loginViewModel = LoginViewModel(usersDataController: usersDataController)
-            loginViewController?.viewModel = loginViewModel
-            loginViewController?.delegate = self
+            let loginViewController = LoginViewController(nibName: nibNameForViewController(.login), viewModel: loginViewModel)
+            loginViewController.delegate = self
             currentViewController = loginViewController
         }
     }
@@ -84,37 +85,54 @@ final class MainCoordinator: NSObject, ChannelsViewControllerDelegate, LoginView
     }
     
     func pushArticlesViewController(selectedChannels: [Channel], channelsDataController: ChannelsDataController) {
-        guard let articlesViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ArticlesViewController") as? ArticlesViewController else {
-            return
-        }
         let articlesDataController = ArticlesDataController(selectedChannels: selectedChannels)
         let articlesViewModel = ArticlesViewModel(articlesDataController: articlesDataController)
+        let articlesViewController = ArticlesViewController(nibName: nibNameForViewController(.articles), viewModel: articlesViewModel)
         articlesDataController.articlesFetchedResultsController.delegate = articlesViewController
-        articlesViewController.viewModel = articlesViewModel
         
         navigationController?.pushViewController(articlesViewController, animated: true)
     }
     
     func pushArticleViewController(article: Article?) {
-        guard let articleViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ArticleViewController") as? ArticleViewController,
-            let article = article else {
+        guard let article = article else {
             return
         }
-        articleViewController.viewModel = ArticleViewModel(article: article)
+        let articleViewModel = ArticleViewModel(article: article)
+        let articleViewController = ArticleViewController(nibName: nibNameForViewController(.article), viewModel: articleViewModel)
         
         navigationController?.pushViewController(articleViewController, animated: true)
     }
     
     func pushArticleWebViewController(articleUrl: URL) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        guard let articleWebViewController = storyboard.instantiateViewController(identifier: "ArticleWebViewController") as? ArticleWebViewController else {
-            return
-        }
         let articleWebViewModel = ArticleWebViewModel(articleUrl: articleUrl)
-        articleWebViewController.viewModel = articleWebViewModel
+        let articleWebViewController = ArticleWebViewController(nibName: nibNameForViewController(.articleWeb), viewModel: articleWebViewModel)
         
         self.navigationController?.pushViewController(articleWebViewController, animated: true)
+    }
+    
+    // MARK: - Private API
+    
+    private func nibNameForViewController(_ viewController: ViewController) -> String {
+        let nibName: String
+        switch viewController {
+            
+        case .article:
+            nibName = "ArticleViewController"
+            
+        case .articles:
+            nibName = "ArticlesViewController"
+            
+        case .articleWeb:
+            nibName = "ArticleWebViewController"
+            
+        case .channels:
+            nibName = "ChannelsViewController"
+            
+        case .login:
+            nibName = "LoginViewController"
+        }
+
+        return nibName
     }
     
     // MARK: - LoginViewControllerDelegate
@@ -127,5 +145,21 @@ final class MainCoordinator: NSObject, ChannelsViewControllerDelegate, LoginView
     
     func signOut() {
         reloadCurrentViewController()
+    }
+}
+
+fileprivate extension MainCoordinator {
+    
+    enum ViewController {
+        
+        case article
+
+        case articles
+        
+        case articleWeb
+
+        case channels
+        
+        case login
     }
 }

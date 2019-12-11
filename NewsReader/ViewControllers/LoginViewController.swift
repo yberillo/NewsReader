@@ -45,6 +45,12 @@ final class LoginViewController: UIViewController {
         super.init(coder: coder)
     }
     
+    init(nibName: String, viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nibName, bundle: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
