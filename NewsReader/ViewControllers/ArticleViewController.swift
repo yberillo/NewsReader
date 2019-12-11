@@ -88,6 +88,6 @@ final class ArticleViewController: UIViewController {
             let articleUrl = URL(string: articleUrlString) else {
             return
         }
-        AppDelegate.mainCoordinator.pushArticleWebViewController(articleUrl: articleUrl)
+        AppDelegate.mainCoordinator.pushViewController(.articleWeb, data: [.articleUrl: articleUrl])
     }
 }

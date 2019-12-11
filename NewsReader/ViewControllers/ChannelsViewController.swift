@@ -66,7 +66,7 @@ final class ChannelsViewController: UITableViewController {
     @IBAction func nextBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
         saveSelectedChannels()
         let selectedChannels = getSelectedChannels()
-        AppDelegate.mainCoordinator.pushArticlesViewController(selectedChannels: selectedChannels, channelsDataController: self.viewModel?.channelsDataController ?? ChannelsDataController())
+        AppDelegate.mainCoordinator.pushViewController(.articles, data: [.selectedChannels: selectedChannels])
     }
     @IBAction func signOutBarButtonItemTouchUpInside(_ sender: UIBarButtonItem) {
         viewModel?.signOut()

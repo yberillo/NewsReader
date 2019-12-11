@@ -31,6 +31,7 @@
 		D18C2F1823A139CD008B81B1 /* ArticleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18C2F1723A139CD008B81B1 /* ArticleViewController.xib */; };
 		D18C2F1A23A13ADC008B81B1 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18C2F1923A13ADC008B81B1 /* LoginViewController.xib */; };
 		D18C2F1C23A13C8B008B81B1 /* ArticlesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18C2F1B23A13C8B008B81B1 /* ArticlesViewController.xib */; };
+		D18C2F1F23A1431A008B81B1 /* ViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18C2F1E23A1431A008B81B1 /* ViewControllerManager.swift */; };
 		D1A26BD5237C303A0071461D /* RSSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A26BD4237C303A0071461D /* RSSParser.swift */; };
 		D1A7D6BA238E8A210027FF85 /* Channel+ChannelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */; };
 		D1ABA54A237D74E300D5108D /* RSSParserKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA549237D74E300D5108D /* RSSParserKeys.swift */; };
@@ -75,6 +76,7 @@
 		D18C2F1723A139CD008B81B1 /* ArticleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleViewController.xib; sourceTree = "<group>"; };
 		D18C2F1923A13ADC008B81B1 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		D18C2F1B23A13C8B008B81B1 /* ArticlesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticlesViewController.xib; sourceTree = "<group>"; };
+		D18C2F1E23A1431A008B81B1 /* ViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerManager.swift; sourceTree = "<group>"; };
 		D1A26BD4237C303A0071461D /* RSSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParser.swift; sourceTree = "<group>"; };
 		D1A7D6B9238E8A210027FF85 /* Channel+ChannelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+ChannelType.swift"; sourceTree = "<group>"; };
 		D1ABA549237D74E300D5108D /* RSSParserKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSParserKeys.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				D1A26BCC237C27BA0071461D /* Coordinators */,
 				D1784420237ACFAB0050C56E /* DataControllers */,
 				D16827202386DDB40038D9E3 /* Extensions */,
+				D18C2F1D23A142CC008B81B1 /* Managers */,
 				D178441F237ACD3C0050C56E /* Miscellaneous */,
 				D178441C237ACD080050C56E /* Models */,
 				D178441E237ACD2D0050C56E /* Resources */,
@@ -240,6 +243,14 @@
 				D1784424237ADFC80050C56E /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		D18C2F1D23A142CC008B81B1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D18C2F1E23A1431A008B81B1 /* ViewControllerManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		D1A26BCC237C27BA0071461D /* Coordinators */ = {
@@ -350,6 +361,7 @@
 				D1784403237AC9650050C56E /* AppDelegate.swift in Sources */,
 				D1B8BEAF2387D4EF0046D37C /* String+Date.swift in Sources */,
 				D1794FBB239E97B600D87EC9 /* ArticleWebViewModel.swift in Sources */,
+				D18C2F1F23A1431A008B81B1 /* ViewControllerManager.swift in Sources */,
 				D1784432237AF05F0050C56E /* ChannelsViewController.swift in Sources */,
 				D1784430237AEFFE0050C56E /* ChannelsViewModel.swift in Sources */,
 				D1794FB9239E68DD00D87EC9 /* MainCoordinator.swift in Sources */,

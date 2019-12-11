@@ -189,7 +189,7 @@ final class ArticlesViewController: UITableViewController, NSFetchedResultsContr
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        AppDelegate.mainCoordinator.pushArticleViewController(article: viewModel?.article(at: indexPath.item))
+        AppDelegate.mainCoordinator.pushViewController(.article, data: [.article: viewModel?.article(at: indexPath.item) as Any])
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
